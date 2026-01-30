@@ -3,7 +3,102 @@ guid: aeef24227cae7214186f75143ae2855c
 ModelImporter:
   serializedVersion: 24200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor
+    second: {fileID: 2100000, guid: e58bc50828608824c80df2735a747070, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor_Stone_2
+    second: {fileID: 2100000, guid: 2f8a8052a8775c34089bd8c8367efb1d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor_Stone_3
+    second: {fileID: 2100000, guid: da067f5242972ae419f9fd601c0eea68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor_WoodPlanks_2
+    second: {fileID: 2100000, guid: 2490c6ad01881a94a8ddb01d0475ea68, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Floor_WoodPlanks_3
+    second: {fileID: 2100000, guid: b73c0e3f3b3e746428e6288805d8b11a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glass
+    second: {fileID: 2100000, guid: 00fd80dacd173954bbc192a95820e02d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Grass
+    second: {fileID: 2100000, guid: 8a42fc7dcd8ae5b47bee18ec5c04b1c7, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Ground
+    second: {fileID: 2100000, guid: 6fef6ea093b3f8649a240d1a0ae64106, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roof
+    second: {fileID: 2100000, guid: fce08d63465623a48addde4c1f6210fd, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Roof_riet
+    second: {fileID: 2100000, guid: d11e558d539be0b418404c958863f91d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: StoneFloor_1
+    second: {fileID: 2100000, guid: 49b1e1559428ae44f9eb23b9111f613c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TrimProps
+    second: {fileID: 2100000, guid: 0087b5f82d2b9ce46ab14f71cd436bb6, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trim_Bricks
+    second: {fileID: 2100000, guid: 7f08db4661ccd9946b36ac705e75be00, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Trim_Wood
+    second: {fileID: 2100000, guid: 01700b4e5a1879441bd0a0b29f18af14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_Bricks
+    second: {fileID: 2100000, guid: ad0792cbb9007af4d8ceb9401b34e6fe, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_Interior
+    second: {fileID: 2100000, guid: c3e02c8f98b8698479926029b7f72adb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_Lime
+    second: {fileID: 2100000, guid: 0d21f44e23e5e104aac49df4c98ce947, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Wall_Outer
+    second: {fileID: 2100000, guid: d2b4ffd6ff63eb743ab29c62d1f75cbb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: WoodDeck
+    second: {fileID: 2100000, guid: 074541adf9036a94398951c6d4b57892, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

@@ -43,31 +43,45 @@ public class SprayCanScript : MonoBehaviour
             position.z = 3;
             position = cam.ScreenToWorldPoint(position);
             transform.position = position;
-        }
-        
-        if(Input.GetMouseButtonDown(0))
-        {
-            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, 100, layer))
+
+            if (Input.GetMouseButton(0) && canvas.isPainting)
             {
-                Debug.Log(hit.collider.gameObject.name);
-                if (hit.collider.tag == "spraycan")
+                ps.transform.rotation = Quaternion.LookRotation((canvas.paintWorldPos - ps.transform.position).normalized, Vector3.up);
+                ps.enableEmission = true;
+            }
+            
+            if (Input.GetMouseButtonUp(1))
+            {
+                followMouse = false;
+            }
+        }
+        else
+        {
+            if(Input.GetMouseButtonDown(0))
+            {
+                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, 100, layer))
                 {
-                    color = hit.collider.GetComponent<MeshRenderer>().material.GetColor("_Color");
-                    mat.SetColor("_Color", color);
-                    var col = ps.colorOverLifetime;
-                    Gradient gradient = new Gradient();
-                    gradient.SetKeys( new GradientColorKey[] { new GradientColorKey(color, 0.0f), new GradientColorKey(color, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } );
-                    col.color = gradient;
+                    Debug.Log(hit.collider.gameObject.name);
+                    if (hit.collider.tag == "spraycan")
+                    {
+                        color = hit.collider.GetComponent<MeshRenderer>().material.GetColor("_Color");
+                        mat.SetColor("_Color", color);
+                        var col = ps.colorOverLifetime;
+                        Gradient gradient = new Gradient();
+                        gradient.SetKeys( new GradientColorKey[] { new GradientColorKey(color, 0.0f), new GradientColorKey(color, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } );
+                        col.color = gradient;
+                    }
                 }
             }
         }
 
-        if (Input.GetMouseButtonUp(1))
+        if (!Input.GetMouseButton(0))
         {
-            followMouse = false;
+            ps.enableEmission = false;
         }
+        
     }
 
     private void OnMouseDown()

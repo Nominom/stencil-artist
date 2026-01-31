@@ -27,7 +27,9 @@ public class CanvasPaintingScript : MonoBehaviour
     
     public Color canvasColor;
 
-    private bool isPainting = false;
+    public bool isPainting {get; private set;}
+    public Vector3 paintWorldPos { get; private set; }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -60,6 +62,7 @@ public class CanvasPaintingScript : MonoBehaviour
                     if (hit.collider.gameObject == gameObject)
                     {
                         canvasHitCoord = hit.textureCoord;
+                        paintWorldPos = hit.point;
                     }
 
                     needUpdate = true;

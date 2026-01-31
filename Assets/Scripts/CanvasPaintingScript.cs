@@ -12,14 +12,12 @@ public class CanvasPaintingScript : MonoBehaviour
     public Material canvasMaterial;
     MeshRenderer meshRenderer;
 
-    [Range(1, 100)]
-    public int radius = 10;
-    
+    [Range(1, 100)] public int radius = 10;
+
     public Vector2 minMaxRadius = new Vector2(30, 120);
 
-    [Range(100, 1000000)]
-    public int stencilPixelThreshold = 500;
-    
+    [Range(100, 1000000)] public int stencilPixelThreshold = 500;
+
     public AnimationCurve paintBrushCurve = new AnimationCurve();
 
     Texture2D canvasTexture;
@@ -28,13 +26,12 @@ public class CanvasPaintingScript : MonoBehaviour
 
     private Vector2 previousCanvasHitCoord;
     private Vector2 canvasHitCoord;
-    public GameObject stencil;
     private Texture2D stencilTexture;
-    
+
     private SprayCanScript sprayCanScript;
 
     public Color sprayColor;
-    
+
     public Color canvasColor;
 
     public bool isPainting { get; private set; } = false;
@@ -44,7 +41,7 @@ public class CanvasPaintingScript : MonoBehaviour
     public List<StencilObj> paintedStencils = new List<StencilObj>();
 
     private ScoringMeowster scoringMeowster;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -54,28 +51,30 @@ public class CanvasPaintingScript : MonoBehaviour
         canvasTexture.SetPixels(pixels);
         canvasTexture.Apply();
         canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
-        stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
         scoringMeowster = FindObjectOfType<ScoringMeowster>();
     }
 
     void Update()
     {
-        if (stencil)
+        if (currentPaintStencilUsed)
         {
             GetStencilUvBlTr();
         }
+
         if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse)
         {
-            currentPaintStencilUsed = FindFirstObjectByType<StencilScript>();
-            stencil = currentPaintStencilUsed.gameObject;
-            stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
+            currentPaintStencilUsed = StencilScript.current;
+            if (currentPaintStencilUsed)
+            {
+                stencilTexture = currentPaintStencilUsed.GetComponent<Renderer>().material.mainTexture as Texture2D;
+            }
             isPainting = true;
             MouseRaycastToCanvas(ref previousCanvasHitCoord);
         }
         else if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse && isPainting) // Left mouse button
         {
             MouseRaycastToCanvas(ref canvasHitCoord);
-            if (Vector2.Distance(canvasHitCoord, previousCanvasHitCoord) > 0.001)
+            if (Vector2.Distance(canvasHitCoord, previousCanvasHitCoord) > 0.001f)
             {
                 needUpdate = true;
             }
@@ -104,14 +103,14 @@ public class CanvasPaintingScript : MonoBehaviour
             }
         }
     }
-    
+
     private Vector2 blCoord;
     private Vector2 trCoord;
 
     private (Vector2, Vector2) GetStencilUvBlTr()
     {
-        Transform bl = stencil.transform.Find("BL");
-        Transform tr = stencil.transform.Find("TR");
+        Transform bl = currentPaintStencilUsed.transform.Find("BL");
+        Transform tr = currentPaintStencilUsed.transform.Find("TR");
 
         Vector3 blforward = bl.forward;
         Vector3 trforward = tr.forward;
@@ -128,7 +127,7 @@ public class CanvasPaintingScript : MonoBehaviour
         {
             trCoord = hit.textureCoord;
         }
-        
+
         return (blCoord, trCoord);
     }
 
@@ -136,7 +135,7 @@ public class CanvasPaintingScript : MonoBehaviour
     {
         if (needUpdate)
         {
-            radius = (int)Mathf.Lerp(minMaxRadius.x, minMaxRadius.y, 1-sprayCanScript.scrollAmount);
+            radius = (int)Mathf.Lerp(minMaxRadius.x, minMaxRadius.y, 1 - sprayCanScript.scrollAmount);
             int x = (int)Mathf.Lerp(0, canvasTexture.width, canvasHitCoord.x);
             int y = (int)Mathf.Lerp(0, canvasTexture.height, canvasHitCoord.y);
             // texture.SetPixel(x, y, new Color(1, 0, 0));
@@ -149,47 +148,49 @@ public class CanvasPaintingScript : MonoBehaviour
         }
     }
 
-    public void DrawCircle(Texture2D tex, Color color, (Vector2 bluv, Vector2 truv) stencilUvs, int x, int y, int radius = 10)
+    public void DrawCircle(Texture2D tex, Color color, (Vector2 bluv, Vector2 truv) stencilUvs, int x, int y,
+        int radius = 10)
     {
         float rSquared = radius * radius;
-        
+
         float tuvw = stencilUvs.truv.x - stencilUvs.bluv.x;
         float tuvh = stencilUvs.truv.y - stencilUvs.bluv.y;
 
         float xs = ((float)x / canvasTexture.width - stencilUvs.bluv.x) / tuvw;
         float ys = ((float)y / canvasTexture.height - stencilUvs.bluv.y) / tuvh;
-        
+
         int prevX = (int)Mathf.Lerp(0, canvasTexture.width, previousCanvasHitCoord.x);
         int prevY = (int)Mathf.Lerp(0, canvasTexture.height, previousCanvasHitCoord.y);
-        
+
         float deltaX = prevX - x;
         float deltaY = prevY - y;
-        
+
         if (canvasTexture.width <= 0 || canvasTexture.height <= 0)
         {
             Debug.LogError("Cannot have 0 width or height.");
             return;
         }
-        
+
         for (int xPix = Math.Max(x - radius, 0); xPix < MathF.Min(x + radius + 1, canvasTexture.width); xPix += 1)
         for (int yPix = Math.Max(y - radius, 0); yPix < MathF.Min(y + radius + 1, canvasTexture.height); yPix += 1)
             if ((x - xPix) * (x - xPix) + (y - yPix) * (y - yPix) < rSquared)
             {
-                float intensity = paintBrushCurve.Evaluate(Vector2.Distance(new Vector2(x, y), new Vector2(xPix, yPix)) / radius);
-                
+                float intensity =
+                    paintBrushCurve.Evaluate(Vector2.Distance(new Vector2(x, y), new Vector2(xPix, yPix)) / radius);
+
                 // Lerp between old and new position to fill in line
                 float r = Random.value;
 
                 int xPixReal = (int)Mathf.Lerp(xPix, xPix + deltaX, r);
                 int yPixReal = (int)Mathf.Lerp(yPix, yPix + deltaY, r);
-                
+
                 xPixReal = Math.Clamp(xPixReal, 0, canvasTexture.width - 1);
                 yPixReal = Math.Clamp(yPixReal, 0, canvasTexture.height - 1);
-                
-                
+
+
                 // Transform from canvas UV-space to Stencil-UV space
 
-                if (stencil)
+                if (currentPaintStencilUsed)
                 {
                     var stencilUv = new Vector2(
                         ((float)xPixReal / canvasTexture.width - stencilUvs.bluv.x) / tuvw,
@@ -236,7 +237,7 @@ public class CanvasPaintingScript : MonoBehaviour
                 Color blended = Color.Lerp(previousColor, color, intensity);
                 blended.a = 1;
                 sprayColor = color;
-                
+
                 tex.SetPixel(xPixReal, yPixReal, blended);
             }
     }

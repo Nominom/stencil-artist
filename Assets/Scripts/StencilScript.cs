@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class StencilScript : MonoBehaviour
 {
+    public static StencilScript current;
+    
     public StencilScobj stencil;
     StencilScobj previousStencil;
     Camera cam;
@@ -89,6 +91,7 @@ public class StencilScript : MonoBehaviour
         if (firstClick)
         {
             FindObjectOfType<StencilSelection>().KillOtherStencils(this);
+            current = this;
             firstClick = false;
         }
         Debug.Log("clicka de stencil");
@@ -114,6 +117,10 @@ public class StencilScript : MonoBehaviour
 
     private void Die()
     {
+        if (current == this)
+        {
+            current = null;
+        }
         Destroy(gameObject);
     }
 }

@@ -13,6 +13,7 @@ public class StencilSelection : MonoBehaviour
     void Start()
     {
         scobjs = Resources.LoadAll<StencilScobj>("Stencils");
+        LoadNewSelection();
     }
 
     // Update is called once per frame

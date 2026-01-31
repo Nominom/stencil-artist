@@ -10,7 +10,6 @@ public class SprayCanScript : MonoBehaviour
     public ParticleSystem ps;
     public CanvasPaintingScript canvas;
     private bool followMouse = false;
-    private StencilScript stencil;
     public float zDistanceFromCamera = 0.5f;
 
     public Vector2 minMaxZDistance = new Vector2(0.5f, 2f);
@@ -34,7 +33,6 @@ public class SprayCanScript : MonoBehaviour
         cam = Camera.main;
         mat = gameObject.GetComponentInChildren<MeshRenderer>().material;
         canvas = FindFirstObjectByType<CanvasPaintingScript>();
-        stencil = FindAnyObjectByType<StencilScript>();
     }
 
     // Update is called once per frame
@@ -96,7 +94,7 @@ public class SprayCanScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("clicka de spraya");
-        if(!stencil.FollowingMouse)
+        if((!StencilScript.current?.FollowingMouse) ?? true)
         {
             followMouse = true;
         }

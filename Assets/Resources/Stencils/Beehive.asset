@@ -17,3 +17,9 @@ MonoBehaviour:
   name: beehive
   description: Bees like flowers!
   tags: 2
+  scoringRules:
+  - Scoring: 0
+    Range: 0.1
+    TargetTag: 64
+    AltTargetName: 
+    RewardScore: 15

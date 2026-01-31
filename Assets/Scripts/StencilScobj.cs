@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Stencil")]
@@ -8,4 +9,5 @@ public class StencilScobj : ScriptableObject
     public new string name;
     public string description;
     public StencilTag tags;
+    public List<ScoringRule> scoringRules;
 }

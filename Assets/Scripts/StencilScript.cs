@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class StencilScript : MonoBehaviour
 {
+    public StencilScobj stencil;
+    
     Camera cam;
 
     private bool followMouse = false;
@@ -18,6 +20,19 @@ public class StencilScript : MonoBehaviour
     {
         cam = Camera.main;
         sprayCanScript = FindObjectOfType<SprayCanScript>();
+        UpdateStencil();
+    }
+
+
+    public void UpdateStencil()
+    {
+        if (stencil == null)
+        {
+            return;
+        }
+        transform.localScale = Vector3.one * stencil.size;
+        GetComponent<MeshRenderer>().material.mainTexture = stencil.texture;
+        
     }
 
     // Update is called once per frame

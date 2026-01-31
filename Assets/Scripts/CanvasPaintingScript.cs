@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CanvasPaintingScript : MonoBehaviour
 {
+    public LayerMask paintLayer;
     public RenderTexture renderTexture;
     public Material canvasMaterial;
     MeshRenderer meshRenderer;
@@ -36,11 +37,15 @@ public class CanvasPaintingScript : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse)
+        {
+            stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
+        }
         if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse) // Left mouse button
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // RaycastHit hit;
-            RaycastHit[] hits = Physics.RaycastAll(ray);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 1, paintLayer);
             foreach (RaycastHit hit in hits)
             {
                 if (hit.collider.gameObject == gameObject || hit.collider.gameObject.CompareTag("stencil"))
@@ -55,14 +60,14 @@ public class CanvasPaintingScript : MonoBehaviour
             }
         }
     }
+    
+    private Vector2 blCoord;
+    private Vector2 trCoord;
 
     private (Vector2, Vector2) GetStencilUvBlTr()
     {
         Transform bl = stencil.transform.Find("BL");
         Transform tr = stencil.transform.Find("TR");
-
-        Vector2 blCoord = default;
-        Vector2 trCoord = default;
 
         Vector3 blforward = bl.forward;
         Vector3 trforward = tr.forward;
@@ -70,12 +75,12 @@ public class CanvasPaintingScript : MonoBehaviour
         Ray blRay = new Ray(bl.transform.position + blforward * 0.01f, blforward);
         Ray trRay = new Ray(tr.transform.position + trforward * 0.01f, trforward);
 
-        if (Physics.Raycast(blRay, out RaycastHit hit, 1))
+        if (Physics.Raycast(blRay, out RaycastHit hit, 1, paintLayer))
         {
             blCoord = hit.textureCoord;
         }
 
-        if (Physics.Raycast(trRay, out hit, 1))
+        if (Physics.Raycast(trRay, out hit, 1, paintLayer))
         {
             trCoord = hit.textureCoord;
         }

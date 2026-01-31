@@ -19,10 +19,13 @@ public class CanvasPaintingScript : MonoBehaviour
     private Vector2 canvasHitCoord;
     public GameObject stencil;
     private Texture2D stencilTexture;
+    
+    private SprayCanScript sprayCanScript;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        sprayCanScript = FindObjectOfType<SprayCanScript>();
         canvasTexture = new Texture2D(renderTexture.width, renderTexture.height);
         Color[] pixels = Enumerable.Repeat(Color.black, renderTexture.width * renderTexture.height).ToArray();
         canvasTexture.SetPixels(pixels);
@@ -33,7 +36,7 @@ public class CanvasPaintingScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0)) // Left mouse button
+        if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse) // Left mouse button
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // RaycastHit hit;

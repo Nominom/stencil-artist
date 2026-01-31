@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SprayCanScript : MonoBehaviour
@@ -7,6 +8,15 @@ public class SprayCanScript : MonoBehaviour
     Camera cam;
     public LayerMask layer;
     public ParticleSystem ps;
+
+    private bool followMouse = false;
+
+    public bool FollowingMouse
+    {
+        get => followMouse;
+        set => followMouse = value;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,10 +27,13 @@ public class SprayCanScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector3 position = Input.mousePosition;
-        position.z = 3;
-        position = cam.ScreenToWorldPoint(position);
-        transform.position = position;
+        if (followMouse)
+        {
+            Vector3 position = Input.mousePosition;
+            position.z = 3;
+            position = cam.ScreenToWorldPoint(position);
+            transform.position = position;
+        }
         
         if(Input.GetMouseButtonDown(0))
         {
@@ -40,5 +53,16 @@ public class SprayCanScript : MonoBehaviour
                 }
             }
         }
+
+        if (Input.GetMouseButtonUp(1))
+        {
+            followMouse = false;
+        }
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log("clicka de spraya");
+        followMouse = true;
     }
 }

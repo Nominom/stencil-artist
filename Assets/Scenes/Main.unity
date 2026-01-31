@@ -237,6 +237,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cded085d155cde949b60f67a11dbc3bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.ProbeVolume
+  version: 2
+  globalVolume: 0
   mode: 2
   size: {x: 35.626007, y: 10, z: 41.879745}
   overrideRendererFilters: 0
@@ -267,8 +269,6 @@ MonoBehaviour:
     e33: 1
   cachedHashCode: -595512993
   fillEmptySpaces: 0
-  version: 2
-  globalVolume: 0
 --- !u!4 &187923201
 Transform:
   m_ObjectHideFlags: 0
@@ -860,6 +860,7 @@ MonoBehaviour:
   stencil: {fileID: 1284635891}
   sprayColor: {r: 0, g: 0, b: 0, a: 0}
   canvasColor: {r: 0.98039216, g: 0.96862745, b: 0.8, a: 1}
+  paintedStencils: []
 --- !u!64 &667502753
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -1108,32 +1109,14 @@ MonoBehaviour:
   CameraMoveTime: 1
   CameraMoveCurve:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CameraPositionLeft: {x: -0.8521413, y: 2.9112601, z: 0.10308981}
-  CameraRotationLeft: {x: 0.092953734, y: 0.7906567, z: -0.12408217}
-  CameraPositionRight: {x: -0.8521413, y: 2.9112601, z: 0.103089795}
-  CameraRotationRight: {x: 0.009000371, y: 0.9906957, z: -0.08290378}
+  CameraPositionLeft: {x: 0, y: 0, z: 0}
+  CameraRotationLeft: {x: 0, y: 0, z: 0}
+  CameraPositionRight: {x: 0, y: 0, z: 0}
+  CameraRotationRight: {x: 0, y: 0, z: 0}
   CameraPosition: 0
 --- !u!1 &728218084
 GameObject:
@@ -6914,6 +6897,18 @@ PrefabInstance:
     - target: {fileID: 788631915063514296, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6985353915926885653, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}
+      propertyPath: m_Intensity
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027203762809388107, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}
+      propertyPath: maxIntensity
+      value: 6.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7027203762809388107, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}
+      propertyPath: minIntensity
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

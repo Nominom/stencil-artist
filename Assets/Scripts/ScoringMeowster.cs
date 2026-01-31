@@ -75,21 +75,23 @@ public class ScoringMeowster : MonoBehaviour
                 }
             }
         }
+
+        FindFirstObjectByType<UIMEOW>().OnScoreChanged(PlayerScore);
     }
 
     Vector2 GetPaintingCanvasSize()
     {
-        throw new NotImplementedException();
+        return FindFirstObjectByType<CanvasPaintingScript>().canvasSize;
     }
 
-    List<StencilScobj> GetNearbyStencilsByTag(StencilTag tag, StencilObj baseStencil, float range)
+    List<StencilObj> GetNearbyStencilsByTag(StencilTag tag, StencilObj baseStencil, float range)
     {
-        List<StencilScobj> results = new List<StencilScobj>();
+        List<StencilObj> results = new List<StencilObj>();
         System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
-            StencilScobj stencil = (StencilScobj)nearbyStencils[i];
-            if (stencil.tags.CompareTo(tag) == 1)
+            StencilObj stencil = (StencilObj)nearbyStencils[i];
+            if (stencil.data.tags.CompareTo(tag) == 1)
             {
                 results.Add(stencil);
             }
@@ -98,14 +100,14 @@ public class ScoringMeowster : MonoBehaviour
         return results;
     }
 
-    List<StencilScobj> GetNearbyStencilsByName(string name, StencilObj baseStencil, float range)
+    List<StencilObj> GetNearbyStencilsByName(string name, StencilObj baseStencil, float range)
     {
-        List<StencilScobj> results = new List<StencilScobj>();
+        List<StencilObj> results = new List<StencilObj>();
         System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
-            StencilScobj stencil = (StencilScobj)nearbyStencils[i];
-            if (stencil.name == name)
+            StencilObj stencil = (StencilObj)nearbyStencils[i];
+            if (stencil.data.name == name)
             {
                 results.Add(stencil);
             }

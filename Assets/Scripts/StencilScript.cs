@@ -14,6 +14,7 @@ public class StencilScript : MonoBehaviour
         get => followMouse;
         set => followMouse = value;
     }
+
     private SprayCanScript sprayCanScript;
     private CanvasPaintingScript canvas;
 
@@ -23,7 +24,7 @@ public class StencilScript : MonoBehaviour
     public float defaultScale = 0.3f;
 
     public float grabZ = 0.9f;
-    
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -40,7 +41,7 @@ public class StencilScript : MonoBehaviour
             return;
         if (stencil == previousStencil)
             return;
-        
+
         previousStencil = stencil;
         transform.localScale = Vector3.one * defaultScale * stencil.size;
         GetComponent<MeshRenderer>().material.mainTexture = stencil.texture;
@@ -54,11 +55,11 @@ public class StencilScript : MonoBehaviour
         if (followMouse)
         {
             Plane plane = new Plane(canvas.transform.forward, canvas.transform.position);
-            
+
             Vector3 position = Input.mousePosition;
             position.z = 1;
             position = cam.ScreenToWorldPoint(position);
-            
+
             Vector3 planePoint = plane.ClosestPointOnPlane(position);
             planePoint -= canvas.transform.forward * grabZ;
             transform.position = planePoint;
@@ -77,9 +78,11 @@ public class StencilScript : MonoBehaviour
         if (stencilUsed)
         {
             transform.AddComponent<Rigidbody>();
+            transform.GetComponent<Rigidbody>().angularVelocity = transform.forward * Random.Range(-5, 5);
             Invoke("Die", 0.5f);
         }
-        if(!sprayCanScript.FollowingMouse && !stencilUsed)
+
+        if (!sprayCanScript.FollowingMouse && !stencilUsed)
         {
             followMouse = true;
             currentStencilPixelsPainted = 0;

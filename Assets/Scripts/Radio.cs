@@ -19,12 +19,12 @@ public class Radio : MonoBehaviour
 
     private void Awake()
     {
+        _radioMusicPlayer = GetComponent<AudioSource>();
         _currentMusicChannel = MusicChannels[0];
     }
 
     private void Start()
     {
-        _radioMusicPlayer = GetComponent<AudioSource>();
         if (MusicChannels != null && MusicChannels.Count > 0)
         {
             if (MusicChannels[0] != null)

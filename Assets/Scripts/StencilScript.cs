@@ -17,6 +17,8 @@ public class StencilScript : MonoBehaviour
 
     public int currentStencilPixelsPainted = 0;
     public bool stencilUsed = false;
+
+    public float defaultScale = 0.3f;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -35,7 +37,7 @@ public class StencilScript : MonoBehaviour
             return;
         
         previousStencil = stencil;
-        transform.localScale = Vector3.one * stencil.size;
+        transform.localScale = Vector3.one * defaultScale * stencil.size;
         GetComponent<MeshRenderer>().material.mainTexture = stencil.texture;
         stencilUsed = false;
         currentStencilPixelsPainted = 0;

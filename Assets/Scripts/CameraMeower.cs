@@ -8,8 +8,8 @@ public class CameraMeower : MonoBehaviour
     public float CameraMoveTime = 1f;
     public AnimationCurve CameraMoveCurve;
 
-    public Transform CameraPositionLeft;
-    public Transform CameraPositionRight;
+    public Transform cameraPositionLeft;
+    public Transform cameraPositionRight;
 
     public enum CameraPositions
     {
@@ -31,5 +31,16 @@ public class CameraMeower : MonoBehaviour
             CameraPosition = CameraPositions.Right;
         }
 
+        if (cameraPositionLeft && CameraPosition == CameraPositions.Left)
+        {
+            transform.position = cameraPositionLeft.position;
+            transform.rotation = cameraPositionLeft.rotation;
+        }
+
+        if (cameraPositionRight && CameraPosition == CameraPositions.Right)
+        {
+            transform.position = cameraPositionRight.position;
+            transform.rotation = cameraPositionRight.rotation;
+        }
     }
 }

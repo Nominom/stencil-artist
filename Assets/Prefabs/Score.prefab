@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoringMeowster
   PlayerScore: 0
-  BaseScorePerStencil: 10
+  BaseScorePerStencil: 1

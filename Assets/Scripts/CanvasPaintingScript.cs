@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CanvasPaintingScript : MonoBehaviour
 {
     public LayerMask paintLayer;
-    public RenderTexture renderTexture;
+    public Vector2 canvasSize = new Vector2(800, 600);
     public Material canvasMaterial;
     MeshRenderer meshRenderer;
 
@@ -15,11 +16,14 @@ public class CanvasPaintingScript : MonoBehaviour
 
     [Range(100, 1000000)]
     public int stencilPixelThreshold = 500;
+    
+    public AnimationCurve paintBrushCurve = new AnimationCurve();
 
     Texture2D canvasTexture;
 
     private bool needUpdate = false;
 
+    private Vector2 previousCanvasHitCoord;
     private Vector2 canvasHitCoord;
     public GameObject stencil;
     private Texture2D stencilTexture;
@@ -35,6 +39,7 @@ public class CanvasPaintingScript : MonoBehaviour
     public StencilScript currentPaintStencilUsed { get; private set; }
 
     public List<StencilObj> paintedStencils = new List<StencilObj>();
+
     
     
     private ScoringMeowster scoringMeowster;
@@ -43,8 +48,8 @@ public class CanvasPaintingScript : MonoBehaviour
     void Start()
     {
         sprayCanScript = FindObjectOfType<SprayCanScript>();
-        canvasTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
-        Color[] pixels = Enumerable.Repeat(canvasColor, renderTexture.width * renderTexture.height).ToArray();
+        canvasTexture = new Texture2D((int)canvasSize.x, (int)canvasSize.y, TextureFormat.RGBA32, false);
+        Color[] pixels = Enumerable.Repeat(canvasColor, (int)canvasSize.x * (int)canvasSize.y).ToArray();
         canvasTexture.SetPixels(pixels);
         canvasTexture.Apply();
         canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
@@ -54,6 +59,10 @@ public class CanvasPaintingScript : MonoBehaviour
 
     void Update()
     {
+        if (stencil)
+        {
+            GetStencilUvBlTr();
+        }
         if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse)
         {
             currentPaintStencilUsed = FindFirstObjectByType<StencilScript>();
@@ -77,7 +86,10 @@ public class CanvasPaintingScript : MonoBehaviour
                         paintWorldPos = hit.point;
                     }
 
-                    needUpdate = true;
+                    if (Vector2.Distance(canvasHitCoord, previousCanvasHitCoord) > 0.001)
+                    {
+                        needUpdate = true;
+                    }
                 }
             }
         }
@@ -119,15 +131,15 @@ public class CanvasPaintingScript : MonoBehaviour
     {
         if (needUpdate)
         {
-            var stenciluvs = GetStencilUvBlTr();
-            int x = (int)Mathf.Lerp(0, renderTexture.width, canvasHitCoord.x);
-            int y = (int)Mathf.Lerp(0, renderTexture.height, canvasHitCoord.y);
+            int x = (int)Mathf.Lerp(0, canvasTexture.width, canvasHitCoord.x);
+            int y = (int)Mathf.Lerp(0, canvasTexture.height, canvasHitCoord.y);
             // texture.SetPixel(x, y, new Color(1, 0, 0));
-            DrawCircle(canvasTexture, sprayCanScript.SprayColor, stenciluvs, x, y, radius);
+            DrawCircle(canvasTexture, sprayCanScript.SprayColor, (blCoord, trCoord), x, y, radius);
             RenderTexture.active = null;
             needUpdate = false;
             canvasTexture.Apply();
             canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
+            previousCanvasHitCoord = canvasHitCoord;
         }
     }
 
@@ -138,26 +150,36 @@ public class CanvasPaintingScript : MonoBehaviour
         float tuvw = stencilUvs.truv.x - stencilUvs.bluv.x;
         float tuvh = stencilUvs.truv.y - stencilUvs.bluv.y;
 
-        float xs = ((float)x / renderTexture.width - stencilUvs.bluv.x) / tuvw;
-        float ys = ((float)y / renderTexture.height - stencilUvs.bluv.y) / tuvh;
+        float xs = ((float)x / canvasTexture.width - stencilUvs.bluv.x) / tuvw;
+        float ys = ((float)y / canvasTexture.height - stencilUvs.bluv.y) / tuvh;
         
-        if (renderTexture.width <= 0 || renderTexture.height <= 0)
+        int prevX = (int)Mathf.Lerp(0, canvasTexture.width, previousCanvasHitCoord.x);
+        int prevY = (int)Mathf.Lerp(0, canvasTexture.height, previousCanvasHitCoord.y);
+        
+        float deltaX = x - prevX;
+        float deltaY = y - prevY;
+        
+        if (canvasTexture.width <= 0 || canvasTexture.height <= 0)
         {
             Debug.LogError("Cannot have 0 width or height.");
             return;
         }
 
-        for (int xPix = Math.Max(x - radius, 0); xPix < MathF.Min(x + radius + 1, renderTexture.width); xPix += 1)
-        for (int yPix = Math.Max(y - radius, 0); yPix < MathF.Min(y + radius + 1, renderTexture.height); yPix += 1)
+        for (int xPix = Math.Max(x - radius, 0); xPix < MathF.Min(x + radius + 1, canvasTexture.width); xPix += 1)
+        for (int yPix = Math.Max(y - radius, 0); yPix < MathF.Min(y + radius + 1, canvasTexture.height); yPix += 1)
             if ((x - xPix) * (x - xPix) + (y - yPix) * (y - yPix) < rSquared)
             {
+                
+                
+                float intensity = paintBrushCurve.Evaluate(Vector2.Distance(new Vector2(x, y), new Vector2(xPix, yPix)) / radius);
+                
                 // Transform from pixel space to uv
-                var uv = new Vector2((float)xPix / renderTexture.width, (float)yPix / renderTexture.height);
+                var uv = new Vector2((float)xPix / canvasTexture.width, (float)yPix / canvasTexture.height);
                 
                 // Transform from canvas UV-space to Stencil-UV space
                 var stencilUv = new Vector2(
-                    ((float)xPix / renderTexture.width - stencilUvs.bluv.x) / tuvw,
-                    ((float)yPix / renderTexture.height - stencilUvs.bluv.y) / tuvh
+                    ((float)xPix / canvasTexture.width - stencilUvs.bluv.x) / tuvw,
+                    ((float)yPix / canvasTexture.height - stencilUvs.bluv.y) / tuvh
                 );
                 
                 bool anyOver = stencilUv.x < 0 ||
@@ -192,9 +214,13 @@ public class CanvasPaintingScript : MonoBehaviour
                     }
                 }
 
-                color.a = 1;
+                Color previousColor = tex.GetPixel(xPix, yPix);
+
+                Color blended = Color.Lerp(previousColor, color, intensity);
+                blended.a = 1;
                 sprayColor = color;
-                tex.SetPixel(xPix, yPix, color);
+                
+                tex.SetPixel(xPix, yPix, blended);
             }
     }
 }

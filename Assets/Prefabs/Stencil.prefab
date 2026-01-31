@@ -190,3 +190,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d616a022d43b9bafaf3912f69cbbadd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StencilScript
+  stencil: {fileID: 11400000, guid: 6215b9ecbae8278448a78c0adcfd6e27, type: 2}
+  currentStencilPixelsPainted: 0
+  stencilUsed: 0
+  defaultScale: 0.3
+  grabZ: 0.001

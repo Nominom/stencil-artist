@@ -14,17 +14,21 @@ public class StencilScript : MonoBehaviour
         set => followMouse = value;
     }
     private SprayCanScript sprayCanScript;
+    private CanvasPaintingScript canvas;
 
     public int currentStencilPixelsPainted = 0;
     public bool stencilUsed = false;
 
     public float defaultScale = 0.3f;
+
+    public float grabZ = 0.9f;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cam = Camera.main;
         sprayCanScript = FindObjectOfType<SprayCanScript>();
+        canvas = FindObjectOfType<CanvasPaintingScript>();
         UpdateStencil();
     }
 
@@ -48,10 +52,16 @@ public class StencilScript : MonoBehaviour
     {
         if (followMouse)
         {
+            Plane plane = new Plane(canvas.transform.forward, canvas.transform.position);
+            
             Vector3 position = Input.mousePosition;
-            position.z = 6;
+            position.z = 1;
             position = cam.ScreenToWorldPoint(position);
-            transform.position = position;
+            
+            Vector3 planePoint = plane.ClosestPointOnPlane(position);
+            planePoint -= canvas.transform.forward * grabZ;
+            transform.position = planePoint;
+            transform.forward = plane.normal;
         }
 
         if (Input.GetMouseButtonUp(1))

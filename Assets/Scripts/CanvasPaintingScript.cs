@@ -70,34 +70,38 @@ public class CanvasPaintingScript : MonoBehaviour
             stencil = currentPaintStencilUsed.gameObject;
             stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
             isPainting = true;
+            MouseRaycastToCanvas(ref previousCanvasHitCoord);
         }
         else if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse && isPainting) // Left mouse button
         {
-
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            // RaycastHit hit;
-            RaycastHit[] hits = Physics.RaycastAll(ray, 100, paintLayer);
-            foreach (RaycastHit hit in hits)
+            MouseRaycastToCanvas(ref canvasHitCoord);
+            if (Vector2.Distance(canvasHitCoord, previousCanvasHitCoord) > 0.001)
             {
-                if (hit.collider.gameObject == gameObject || hit.collider.gameObject.CompareTag("stencil"))
-                {
-                    if (hit.collider.gameObject == gameObject)
-                    {
-                        canvasHitCoord = hit.textureCoord;
-                        paintWorldPos = hit.point;
-                    }
-
-                    if (Vector2.Distance(canvasHitCoord, previousCanvasHitCoord) > 0.001)
-                    {
-                        needUpdate = true;
-                    }
-                }
+                needUpdate = true;
             }
         }
 
         if (Input.GetMouseButtonUp(0))
         {
             isPainting = false;
+        }
+    }
+
+    private void MouseRaycastToCanvas(ref Vector2 hitCoord)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        // RaycastHit hit;
+        RaycastHit[] hits = Physics.RaycastAll(ray, 100, paintLayer);
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject == gameObject || hit.collider.gameObject.CompareTag("stencil"))
+            {
+                if (hit.collider.gameObject == gameObject)
+                {
+                    hitCoord = hit.textureCoord;
+                    paintWorldPos = hit.point;
+                }
+            }
         }
     }
     
@@ -183,40 +187,46 @@ public class CanvasPaintingScript : MonoBehaviour
                 
                 
                 // Transform from canvas UV-space to Stencil-UV space
-                var stencilUv = new Vector2(
-                    ((float)xPixReal / canvasTexture.width - stencilUvs.bluv.x) / tuvw,
-                    ((float)yPixReal / canvasTexture.height - stencilUvs.bluv.y) / tuvh
-                );
-                
-                bool anyOver = stencilUv.x < 0 ||
-                               stencilUv.x > 1 ||
-                               stencilUv.y < 0 ||
-                               stencilUv.y > 1;
-                
-                if (!anyOver && stencilTexture.GetPixelBilinear(stencilUv.x, stencilUv.y) == Color.black)
-                {
-                    continue;
-                }
 
-                if (!anyOver && !currentPaintStencilUsed.stencilUsed)
+                if (stencil)
                 {
-                    currentPaintStencilUsed.currentStencilPixelsPainted++;
+                    var stencilUv = new Vector2(
+                        ((float)xPixReal / canvasTexture.width - stencilUvs.bluv.x) / tuvw,
+                        ((float)yPixReal / canvasTexture.height - stencilUvs.bluv.y) / tuvh
+                    );
 
-                    if (currentPaintStencilUsed.currentStencilPixelsPainted >=
-                        stencilPixelThreshold * currentPaintStencilUsed.stencil.size)
+                    bool anyOver = stencilUv.x < 0 ||
+                                   stencilUv.x > 1 ||
+                                   stencilUv.y < 0 ||
+                                   stencilUv.y > 1;
+
+                    if (!anyOver && stencilTexture.GetPixelBilinear(stencilUv.x, stencilUv.y) == Color.black)
                     {
-                        Debug.LogWarning("Stencil Painted!");
-                        currentPaintStencilUsed.stencilUsed = true;
-                        StencilObj stencil = new StencilObj()
+                        continue;
+                    }
+
+                    if (!anyOver && !currentPaintStencilUsed.stencilUsed)
+                    {
+                        currentPaintStencilUsed.currentStencilPixelsPainted++;
+
+                        float sSizeSquared =
+                            currentPaintStencilUsed.stencil.size * currentPaintStencilUsed.stencil.size;
+                        if (currentPaintStencilUsed.currentStencilPixelsPainted >=
+                            stencilPixelThreshold * sSizeSquared)
                         {
-                            bl = stencilUvs.bluv,
-                            tr = stencilUvs.truv,
-                            data = currentPaintStencilUsed.stencil,
-                            position = (stencilUvs.bluv + stencilUvs.truv) / 2f,
-                            worldPos = currentPaintStencilUsed.transform.position
-                        };
-                        scoringMeowster.OnStencilPainted(stencil);
-                        paintedStencils.Add(stencil);
+                            Debug.LogWarning("Stencil Painted!");
+                            currentPaintStencilUsed.stencilUsed = true;
+                            StencilObj stencil = new StencilObj()
+                            {
+                                bl = stencilUvs.bluv,
+                                tr = stencilUvs.truv,
+                                data = currentPaintStencilUsed.stencil,
+                                position = (stencilUvs.bluv + stencilUvs.truv) / 2f,
+                                worldPos = currentPaintStencilUsed.transform.position
+                            };
+                            scoringMeowster?.OnStencilPainted(stencil);
+                            paintedStencils.Add(stencil);
+                        }
                     }
                 }
 

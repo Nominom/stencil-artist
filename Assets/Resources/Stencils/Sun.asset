@@ -17,3 +17,9 @@ MonoBehaviour:
   name: Sun
   description: Just a sun.
   tags: 16
+  scoringRules:
+  - Scoring: 3
+    Range: 0
+    TargetTag: 0
+    AltTargetName: 
+    RewardScore: 30

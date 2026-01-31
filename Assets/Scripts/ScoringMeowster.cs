@@ -14,13 +14,64 @@ public class ScoringMeowster : MonoBehaviour
         {
             if (!string.IsNullOrEmpty(rule.AltTargetName))
             {
-                PlayerScore += GetNearbyStencilsByName(rule.AltTargetName, stencil).Count * rule.RewardScore;
+                switch (rule.Scoring)
+                {
+                    case ScoringRule.ScoringType.Closeness:
+                        PlayerScore += GetNearbyStencilsByName(rule.AltTargetName, stencil).Count * rule.RewardScore;
+                        break;
+                    case ScoringRule.ScoringType.Farawayness:
+                        PlayerScore -= GetNearbyStencilsByName(rule.AltTargetName, stencil).Count * rule.RewardScore;
+                        break;
+                    case ScoringRule.ScoringType.BelowHorizon:
+                        if (stencil.y < GetPaintingCanvasSize().y / 2f)
+                        {
+                            PlayerScore += rule.RewardScore;
+                        }
+                        break;
+                    case ScoringRule.ScoringType.AboveHorizon:
+                        if (stencil.y > GetPaintingCanvasSize().y / 2f)
+                        {
+                            PlayerScore += rule.RewardScore;
+                        }
+                        break;
+                    default:
+                        Debug.LogWarning("Unrecognized scoring rule, implement scoring in this file");
+                        break;
+                }
             }
             else
             {
-                PlayerScore += GetNearbyStencilsByTag(rule.TargetTag, stencil).Count * rule.RewardScore;
+                switch (rule.Scoring)
+                {
+                    case ScoringRule.ScoringType.Closeness:
+                        PlayerScore += GetNearbyStencilsByTag(rule.TargetTag, stencil).Count * rule.RewardScore;
+                        break;
+                    case ScoringRule.ScoringType.Farawayness:
+                        PlayerScore -= GetNearbyStencilsByTag(rule.TargetTag, stencil).Count * rule.RewardScore;
+                        break;
+                    case ScoringRule.ScoringType.BelowHorizon:
+                        if (stencil.y < GetPaintingCanvasSize().y / 2f)
+                        {
+                            PlayerScore += rule.RewardScore;
+                        }
+                        break;
+                    case ScoringRule.ScoringType.AboveHorizon:
+                        if (stencil.y > GetPaintingCanvasSize().y / 2f)
+                        {
+                            PlayerScore += rule.RewardScore;
+                        }
+                        break;
+                    default:
+                        Debug.LogWarning("Unrecognized scoring rule, implement scoring in this file");
+                        break;
+                }
             }
         }
+    }
+
+    Vector2 GetPaintingCanvasSize()
+    {
+        throw new NotImplementedException();
     }
 
     List<StencilScobj> GetNearbyStencilsByTag(StencilTag tag, StencilObj baseStencil)

@@ -215,7 +215,7 @@ public class CanvasPaintingScript : MonoBehaviour
                             position = (stencilUvs.bluv + stencilUvs.truv) / 2f,
                             worldPos = currentPaintStencilUsed.transform.position
                         };
-                        scoringMeowster?.OnStencilPainted(stencil);
+                        scoringMeowster.OnStencilPainted(stencil);
                         paintedStencils.Add(stencil);
                     }
                 }

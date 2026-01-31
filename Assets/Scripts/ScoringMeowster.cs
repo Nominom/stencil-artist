@@ -7,9 +7,17 @@ public class ScoringMeowster : MonoBehaviour
     public int PlayerScore = 0;
     public int BaseScorePerStencil = 10;
 
+    CanvasPaintingScript canvasPainter;
+
+    private void Awake()
+    {
+        canvasPainter = FindFirstObjectByType<CanvasPaintingScript>();
+    }
+
     public void OnStencilPainted(StencilObj stencil)
     {
         // Score
+        PlayerScore += BaseScorePerStencil;
         foreach(ScoringRule rule in stencil.data.scoringRules)
         {
             if (!string.IsNullOrEmpty(rule.AltTargetName))
@@ -17,10 +25,10 @@ public class ScoringMeowster : MonoBehaviour
                 switch (rule.Scoring)
                 {
                     case ScoringRule.ScoringType.Closeness:
-                        PlayerScore += GetNearbyStencilsByName(rule.AltTargetName, stencil).Count * rule.RewardScore;
+                        PlayerScore += GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.Farawayness:
-                        PlayerScore -= GetNearbyStencilsByName(rule.AltTargetName, stencil).Count * rule.RewardScore;
+                        PlayerScore -= GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.BelowHorizon:
                         if (stencil.y < GetPaintingCanvasSize().y / 2f)
@@ -44,10 +52,10 @@ public class ScoringMeowster : MonoBehaviour
                 switch (rule.Scoring)
                 {
                     case ScoringRule.ScoringType.Closeness:
-                        PlayerScore += GetNearbyStencilsByTag(rule.TargetTag, stencil).Count * rule.RewardScore;
+                        PlayerScore += GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.Farawayness:
-                        PlayerScore -= GetNearbyStencilsByTag(rule.TargetTag, stencil).Count * rule.RewardScore;
+                        PlayerScore -= GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.BelowHorizon:
                         if (stencil.y < GetPaintingCanvasSize().y / 2f)
@@ -74,10 +82,10 @@ public class ScoringMeowster : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    List<StencilScobj> GetNearbyStencilsByTag(StencilTag tag, StencilObj baseStencil)
+    List<StencilScobj> GetNearbyStencilsByTag(StencilTag tag, StencilObj baseStencil, float range)
     {
         List<StencilScobj> results = new List<StencilScobj>();
-        System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y));
+        System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
             StencilScobj stencil = (StencilScobj)nearbyStencils[i];
@@ -90,10 +98,10 @@ public class ScoringMeowster : MonoBehaviour
         return results;
     }
 
-    List<StencilScobj> GetNearbyStencilsByName(string name, StencilObj baseStencil)
+    List<StencilScobj> GetNearbyStencilsByName(string name, StencilObj baseStencil, float range)
     {
         List<StencilScobj> results = new List<StencilScobj>();
-        System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y));
+        System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
             StencilScobj stencil = (StencilScobj)nearbyStencils[i];
@@ -106,9 +114,18 @@ public class ScoringMeowster : MonoBehaviour
         return results;
     }
 
-    List<StencilObj> GetNearbyStencils(Vector2 pos)
+    List<StencilObj> GetNearbyStencils(Vector2 pos, float range)
     {
-        throw new NotImplementedException();
-        // return StencilManager.Instance.GetNearbyStencils(pos);
+        List<StencilObj> stencils = new List<StencilObj>(canvasPainter.paintedStencils);
+        List<StencilObj> results = new List<StencilObj>();
+        foreach(StencilObj stencil in stencils) 
+        {
+            if (Vector2.Distance(new Vector2(stencil.x, stencil.y), pos) < range)
+            {
+                results.Add(stencil);
+            }
+        }
+
+        return results;
     }
 }

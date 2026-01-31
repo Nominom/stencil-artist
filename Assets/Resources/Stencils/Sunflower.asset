@@ -17,3 +17,14 @@ MonoBehaviour:
   name: sunflower
   description: Likes the sun!
   tags: 65
+  scoringRules:
+  - Scoring: 0
+    Range: 0.5
+    TargetTag: 0
+    AltTargetName: Sun
+    RewardScore: 20
+  - Scoring: 0
+    Range: 0.2
+    TargetTag: 64
+    AltTargetName: 
+    RewardScore: 5

@@ -23,12 +23,16 @@ public class CanvasPaintingScript : MonoBehaviour
     
     private SprayCanScript sprayCanScript;
 
+    public Color sprayColor;
+    
+    public Color canvasColor;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         sprayCanScript = FindObjectOfType<SprayCanScript>();
-        canvasTexture = new Texture2D(renderTexture.width, renderTexture.height);
-        Color[] pixels = Enumerable.Repeat(Color.black, renderTexture.width * renderTexture.height).ToArray();
+        canvasTexture = new Texture2D(renderTexture.width, renderTexture.height, TextureFormat.RGBA32, false);
+        Color[] pixels = Enumerable.Repeat(canvasColor, renderTexture.width * renderTexture.height).ToArray();
         canvasTexture.SetPixels(pixels);
         canvasTexture.Apply();
         canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
@@ -96,7 +100,7 @@ public class CanvasPaintingScript : MonoBehaviour
             int x = (int)Mathf.Lerp(0, renderTexture.width, canvasHitCoord.x);
             int y = (int)Mathf.Lerp(0, renderTexture.height, canvasHitCoord.y);
             // texture.SetPixel(x, y, new Color(1, 0, 0));
-            DrawCircle(canvasTexture, new Color(1-sprayCanScript.SprayColor.r, 1-sprayCanScript.SprayColor.g, 1-sprayCanScript.SprayColor.b), stenciluvs, x, y, radius);
+            DrawCircle(canvasTexture, sprayCanScript.SprayColor, stenciluvs, x, y, radius);
             RenderTexture.active = null;
             needUpdate = false;
             canvasTexture.Apply();
@@ -145,6 +149,8 @@ public class CanvasPaintingScript : MonoBehaviour
                     continue;
                 }
 
+                color.a = 1;
+                sprayColor = color;
                 tex.SetPixel(xPix, yPix, color);
             }
     }

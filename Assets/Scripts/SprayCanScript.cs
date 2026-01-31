@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SprayCanScript : MonoBehaviour
 {
-    Material mat;
+    public Material mat;
     Color color;
     public Color SprayColor { get => color; set => color = value; }
     Camera cam;
@@ -54,8 +54,8 @@ public class SprayCanScript : MonoBehaviour
                 Debug.Log(hit.collider.gameObject.name);
                 if (hit.collider.tag == "spraycan")
                 {
-                    color = hit.collider.GetComponent<MeshRenderer>().material.color;
-                    mat.color = color;
+                    color = hit.collider.GetComponent<MeshRenderer>().material.GetColor("_Color");
+                    mat.SetColor("_Color", color);
                     var col = ps.colorOverLifetime;
                     Gradient gradient = new Gradient();
                     gradient.SetKeys( new GradientColorKey[] { new GradientColorKey(color, 0.0f), new GradientColorKey(color, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } );

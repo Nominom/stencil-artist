@@ -55,24 +55,22 @@ public class SprayCanScript : MonoBehaviour
                 followMouse = false;
             }
         }
-        else
+        
+        if(Input.GetMouseButtonDown(0))
         {
-            if(Input.GetMouseButtonDown(0))
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit, 100, layer))
             {
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit, 100, layer))
+                Debug.Log(hit.collider.gameObject.name);
+                if (hit.collider.tag == "spraycan")
                 {
-                    Debug.Log(hit.collider.gameObject.name);
-                    if (hit.collider.tag == "spraycan")
-                    {
-                        color = hit.collider.GetComponent<MeshRenderer>().material.GetColor("_Color");
-                        mat.SetColor("_Color", color);
-                        var col = ps.colorOverLifetime;
-                        Gradient gradient = new Gradient();
-                        gradient.SetKeys( new GradientColorKey[] { new GradientColorKey(color, 0.0f), new GradientColorKey(color, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } );
-                        col.color = gradient;
-                    }
+                    color = hit.collider.GetComponent<MeshRenderer>().material.GetColor("_Color");
+                    mat.SetColor("_Color", color);
+                    var col = ps.colorOverLifetime;
+                    Gradient gradient = new Gradient();
+                    gradient.SetKeys( new GradientColorKey[] { new GradientColorKey(color, 0.0f), new GradientColorKey(color, 1.0f) }, new GradientAlphaKey[] { new GradientAlphaKey(1.0f, 0.0f), new GradientAlphaKey(0.0f, 1.0f) } );
+                    col.color = gradient;
                 }
             }
         }

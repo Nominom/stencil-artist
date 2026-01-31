@@ -13,6 +13,9 @@ public class CanvasPaintingScript : MonoBehaviour
     [Range(1, 100)]
     public int radius = 10;
 
+    [Range(100, 1000000)]
+    public int stencilPixelThreshold = 500;
+
     Texture2D canvasTexture;
 
     private bool needUpdate = false;
@@ -27,8 +30,9 @@ public class CanvasPaintingScript : MonoBehaviour
     
     public Color canvasColor;
 
-    public bool isPainting {get; private set;}
+    public bool isPainting { get; private set; } = false;
     public Vector3 paintWorldPos { get; private set; }
+    public StencilScript currentPaintStencilUsed { get; private set; }
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -46,10 +50,12 @@ public class CanvasPaintingScript : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse)
         {
+            currentPaintStencilUsed = FindFirstObjectByType<StencilScript>();
+            stencil = currentPaintStencilUsed.gameObject;
             stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
             isPainting = true;
         }
-        if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse && isPainting) // Left mouse button
+        else if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse && isPainting) // Left mouse button
         {
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -129,8 +135,6 @@ public class CanvasPaintingScript : MonoBehaviour
         float xs = ((float)x / renderTexture.width - stencilUvs.bluv.x) / tuvw;
         float ys = ((float)y / renderTexture.height - stencilUvs.bluv.y) / tuvh;
         
-        Debug.Log($"M;EOPW x:{xs},  y:{ys}  bluv: {stencilUvs.bluv},  truv: {stencilUvs.truv}");
-        
         if (renderTexture.width <= 0 || renderTexture.height <= 0)
         {
             Debug.LogError("Cannot have 0 width or height.");
@@ -158,6 +162,18 @@ public class CanvasPaintingScript : MonoBehaviour
                 if (!anyOver && stencilTexture.GetPixelBilinear(stencilUv.x, stencilUv.y) == Color.black)
                 {
                     continue;
+                }
+
+                if (!anyOver && !currentPaintStencilUsed.stencilUsed)
+                {
+                    currentPaintStencilUsed.currentStencilPixelsPainted++;
+
+                    if (currentPaintStencilUsed.currentStencilPixelsPainted >=
+                        stencilPixelThreshold * currentPaintStencilUsed.stencil.size)
+                    {
+                        Debug.LogWarning("Stencil Painted!");
+                        currentPaintStencilUsed.stencilUsed = true;
+                    }
                 }
 
                 color.a = 1;

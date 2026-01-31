@@ -7,7 +7,7 @@ public class ScoringMeowster : MonoBehaviour
     public int PlayerScore = 0;
     public int BaseScorePerStencil = 10;
 
-    void OnStencilPainted(StencilObj stencil)
+    public void OnStencilPainted(StencilObj stencil)
     {
         // Score
         foreach(ScoringRule rule in stencil.data.scoringRules)

@@ -33,6 +33,11 @@ public class CanvasPaintingScript : MonoBehaviour
     public bool isPainting { get; private set; } = false;
     public Vector3 paintWorldPos { get; private set; }
     public StencilScript currentPaintStencilUsed { get; private set; }
+
+    public List<StencilObj> paintedStencils = new List<StencilObj>();
+    
+    
+    private ScoringMeowster scoringMeowster;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +49,7 @@ public class CanvasPaintingScript : MonoBehaviour
         canvasTexture.Apply();
         canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
         stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
+        scoringMeowster = FindObjectOfType<ScoringMeowster>();
     }
 
     void Update()
@@ -173,6 +179,16 @@ public class CanvasPaintingScript : MonoBehaviour
                     {
                         Debug.LogWarning("Stencil Painted!");
                         currentPaintStencilUsed.stencilUsed = true;
+                        StencilObj stencil = new StencilObj()
+                        {
+                            bl = stencilUvs.bluv,
+                            tr = stencilUvs.truv,
+                            data = currentPaintStencilUsed.stencil,
+                            position = (stencilUvs.bluv + stencilUvs.truv) / 2f,
+                            worldPos = currentPaintStencilUsed.transform.position
+                        };
+                        scoringMeowster?.OnStencilPainted(stencil);
+                        paintedStencils.Add(stencil);
                     }
                 }
 

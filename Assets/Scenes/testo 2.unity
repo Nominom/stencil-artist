@@ -234,7 +234,7 @@ MonoBehaviour:
   renderTexture: {fileID: 8400000, guid: 8983f189b76b244c5a9d7066a9b3f305, type: 2}
   canvasMaterial: {fileID: 2100000, guid: b8913c61b8a65ae568fdfa293e277cf1, type: 2}
   radius: 59
-  stencilPixelThreshold: 1000
+  stencilPixelThreshold: 300000
   stencil: {fileID: 1894158184}
   sprayColor: {r: 0, g: 0, b: 0, a: 0}
   canvasColor: {r: 0.98039216, g: 0.96862745, b: 0.8, a: 1}

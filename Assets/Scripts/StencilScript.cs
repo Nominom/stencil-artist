@@ -74,6 +74,11 @@ public class StencilScript : MonoBehaviour
         }
     }
 
+    private void OnMouseOver()
+    {
+        FindFirstObjectByType<UIMEOW>().OnStencilSelected(stencil);
+    }
+
     private void OnMouseDown()
     {
         if (firstClick)

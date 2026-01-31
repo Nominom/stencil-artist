@@ -9,7 +9,7 @@ public class SprayCanScript : MonoBehaviour
     Camera cam;
     public LayerMask layer;
     public ParticleSystem ps;
-
+    public CanvasPaintingScript canvas;
     private bool followMouse = false;
     private StencilScript stencil;
 
@@ -29,6 +29,8 @@ public class SprayCanScript : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+        mat = gameObject.GetComponentInChildren<MeshRenderer>().material;
+        canvas = FindFirstObjectByType<CanvasPaintingScript>();
         stencil = FindAnyObjectByType<StencilScript>();
     }
 

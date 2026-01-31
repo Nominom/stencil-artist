@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class StencilScript : MonoBehaviour
@@ -73,10 +74,20 @@ public class StencilScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("clicka de stencil");
-        if(!sprayCanScript.FollowingMouse)
+        if (stencilUsed)
+        {
+            transform.AddComponent<Rigidbody>();
+            Invoke("Die", 0.5f);
+        }
+        if(!sprayCanScript.FollowingMouse && !stencilUsed)
         {
             followMouse = true;
             currentStencilPixelsPainted = 0;
         }
+    }
+
+    private void Die()
+    {
+        Destroy(gameObject);
     }
 }

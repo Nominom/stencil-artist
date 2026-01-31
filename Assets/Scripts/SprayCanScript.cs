@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class SprayCanScript : MonoBehaviour
@@ -13,6 +12,9 @@ public class SprayCanScript : MonoBehaviour
     private bool followMouse = false;
     private StencilScript stencil;
     public float zDistanceFromCamera = 0.5f;
+
+    public Vector2 minMaxZDistance = new Vector2(0.5f, 2f);
+    public float scrollAmount = 0f;
 
     public bool FollowingMouse
     {
@@ -80,6 +82,14 @@ public class SprayCanScript : MonoBehaviour
         {
             ps.enableEmission = false;
         }
+
+        if (Input.mouseScrollDelta.y != 0 && followMouse)
+        {
+            scrollAmount += Input.mouseScrollDelta.y * 0.1f;
+            scrollAmount = Mathf.Clamp(scrollAmount, 0, 1);
+        }
+        
+        zDistanceFromCamera = Mathf.Lerp(minMaxZDistance.x, minMaxZDistance.y, scrollAmount);
         
     }
 

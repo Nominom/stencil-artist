@@ -76,6 +76,11 @@ public class StencilScript : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (sprayCanScript.FollowingMouse)
+        {
+            return;
+        }
+        
         if (firstClick)
         {
             FindObjectOfType<StencilSelection>().KillOtherStencils(this);

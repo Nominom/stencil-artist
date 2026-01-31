@@ -14,6 +14,8 @@ public class CanvasPaintingScript : MonoBehaviour
 
     [Range(1, 100)]
     public int radius = 10;
+    
+    public Vector2 minMaxRadius = new Vector2(30, 120);
 
     [Range(100, 1000000)]
     public int stencilPixelThreshold = 500;
@@ -41,8 +43,6 @@ public class CanvasPaintingScript : MonoBehaviour
 
     public List<StencilObj> paintedStencils = new List<StencilObj>();
 
-    
-    
     private ScoringMeowster scoringMeowster;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -136,6 +136,7 @@ public class CanvasPaintingScript : MonoBehaviour
     {
         if (needUpdate)
         {
+            radius = (int)Mathf.Lerp(minMaxRadius.x, minMaxRadius.y, 1-sprayCanScript.scrollAmount);
             int x = (int)Mathf.Lerp(0, canvasTexture.width, canvasHitCoord.x);
             int y = (int)Mathf.Lerp(0, canvasTexture.height, canvasHitCoord.y);
             // texture.SetPixel(x, y, new Color(1, 0, 0));

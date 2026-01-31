@@ -24,6 +24,8 @@ public class StencilScript : MonoBehaviour
     public float defaultScale = 0.3f;
 
     public float grabZ = 0.9f;
+    
+    bool firstClick = true;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -74,12 +76,16 @@ public class StencilScript : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if (firstClick)
+        {
+            FindObjectOfType<StencilSelection>().KillOtherStencils(this);
+            firstClick = false;
+        }
         Debug.Log("clicka de stencil");
         if (stencilUsed)
         {
-            transform.AddComponent<Rigidbody>();
-            transform.GetComponent<Rigidbody>().angularVelocity = transform.forward * Random.Range(-5, 5);
-            Invoke("Die", 0.5f);
+            KillStencil();
+            FindObjectOfType<StencilSelection>().LoadNewSelection();
         }
 
         if (!sprayCanScript.FollowingMouse && !stencilUsed)
@@ -87,6 +93,13 @@ public class StencilScript : MonoBehaviour
             followMouse = true;
             currentStencilPixelsPainted = 0;
         }
+    }
+
+    public void KillStencil()
+    {
+        transform.AddComponent<Rigidbody>();
+        transform.GetComponent<Rigidbody>().angularVelocity = transform.forward * Random.Range(-5, 5);
+        Invoke("Die", 0.5f);
     }
 
     private void Die()

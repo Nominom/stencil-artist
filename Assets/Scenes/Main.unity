@@ -857,7 +857,7 @@ MonoBehaviour:
   canvasSize: {x: 800, y: 600}
   canvasMaterial: {fileID: 2100000, guid: b8913c61b8a65ae568fdfa293e277cf1, type: 2}
   radius: 59
-  stencilPixelThreshold: 422617
+  stencilPixelThreshold: 211308
   paintBrushCurve:
     serializedVersion: 2
     m_Curve:
@@ -1151,8 +1151,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  CameraPositionLeft: {fileID: 0}
-  CameraPositionRight: {fileID: 0}
+  cameraPositionLeft: {fileID: 0}
+  cameraPositionRight: {fileID: 0}
   CameraPosition: 0
 --- !u!1 &728218084
 GameObject:

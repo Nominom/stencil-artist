@@ -7,11 +7,12 @@ public class StencilSelection : MonoBehaviour
     
     public GameObject stencilPrefab;
     
+    List<StencilScript> stencilScripts = new List<StencilScript>();
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         scobjs = Resources.LoadAll<StencilScobj>("Stencils");
-        LoadNewSelection();
     }
 
     // Update is called once per frame
@@ -20,8 +21,18 @@ public class StencilSelection : MonoBehaviour
         
     }
 
+    public void KillOtherStencils(StencilScript stencil)
+    {
+        stencilScripts.Remove(stencil);
+        foreach (var s in stencilScripts)
+        {
+            s.KillStencil();
+        }
+    }
+
     public void LoadNewSelection()
     {
+        stencilScripts.Clear();
         List<StencilScobj> stencils = new List<StencilScobj>();
         List<int> picked = new List<int>();
         
@@ -40,6 +51,7 @@ public class StencilSelection : MonoBehaviour
             var stencil = s.GetComponent<StencilScript>();
             stencil.stencil = selected;
             stencil.UpdateStencil();
+            stencilScripts.Add(stencil);
         }
     }
 }

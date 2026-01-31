@@ -12,6 +12,7 @@ public class SprayCanScript : MonoBehaviour
     public CanvasPaintingScript canvas;
     private bool followMouse = false;
     private StencilScript stencil;
+    public float zDistanceFromCamera = 0.5f;
 
     public bool FollowingMouse
     {
@@ -40,7 +41,7 @@ public class SprayCanScript : MonoBehaviour
         if (followMouse)
         {
             Vector3 position = Input.mousePosition;
-            position.z = 3;
+            position.z = zDistanceFromCamera;
             position = cam.ScreenToWorldPoint(position);
             transform.position = position;
 

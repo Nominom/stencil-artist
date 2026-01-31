@@ -27,6 +27,7 @@ public class CanvasPaintingScript : MonoBehaviour
     
     public Color canvasColor;
 
+    private bool isPainting = false;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,18 +45,16 @@ public class CanvasPaintingScript : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse)
         {
             stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
+            isPainting = true;
         }
-        if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse) // Left mouse button
+        if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse && isPainting) // Left mouse button
         {
-            Debug.Log("MEWOEWOAEOAWEWAOEAWOEAOWEOWA");
 
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // RaycastHit hit;
             RaycastHit[] hits = Physics.RaycastAll(ray, 100, paintLayer);
             foreach (RaycastHit hit in hits)
             {
-                Debug.Log($"MEWOEWOAEOAWEWAOEAWOEAOWEOWA, collider = {hit.collider.gameObject.name}");
-
                 if (hit.collider.gameObject == gameObject || hit.collider.gameObject.CompareTag("stencil"))
                 {
                     if (hit.collider.gameObject == gameObject)
@@ -66,6 +65,11 @@ public class CanvasPaintingScript : MonoBehaviour
                     needUpdate = true;
                 }
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            isPainting = false;
         }
     }
     

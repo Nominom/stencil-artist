@@ -3,33 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class CleaningTest : MonoBehaviour
+public class CanvasPaintingScript : MonoBehaviour
 {
     public RenderTexture renderTexture;
-    public Material cleanMat;
+    public Material canvasMaterial;
     MeshRenderer meshRenderer;
 
     [Range(1, 100)]
     public int radius = 10;
 
-    Texture2D texture;
+    Texture2D canvasTexture;
 
     private bool needUpdate = false;
 
     private Vector2 canvasHitCoord;
     public GameObject stencil;
-    bool stencilHit = false;
-    private Vector2 stencilHitCoord;
     private Texture2D stencilTexture;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        texture = new Texture2D(renderTexture.width, renderTexture.height);
+        canvasTexture = new Texture2D(renderTexture.width, renderTexture.height);
         Color[] pixels = Enumerable.Repeat(Color.black, renderTexture.width * renderTexture.height).ToArray();
-        texture.SetPixels(pixels);
-        texture.Apply();
-        cleanMat.SetTexture("_RenderTexture", texture);
+        canvasTexture.SetPixels(pixels);
+        canvasTexture.Apply();
+        canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
         stencilTexture = stencil.GetComponent<Renderer>().material.mainTexture as Texture2D;
     }
 
@@ -49,30 +47,7 @@ public class CleaningTest : MonoBehaviour
                         canvasHitCoord = hit.textureCoord;
                     }
 
-                    if (hit.collider.gameObject.CompareTag("stencil"))
-                    {
-                        stencilHit = true;
-                        stencilHitCoord = hit.textureCoord;
-                    }
-                    else
-                    {
-                        stencilHit = false;
-                    }
-                    //     Texture2D tex = hit.collider.GetComponent<Renderer>().material.mainTexture as Texture2D;
-                    //     stencilTexture = tex;
-                    //     // if (tex.GetPixelBilinear(hit.textureCoord.x, hit.textureCoord.y) == Color.black)
-                    //     // {
-                    //     //     Debug.Log("black");
-                    //     //     needUpdate = false;
-                    //     // }
-                    // }
-
-                    // Debug.Log(hit.textureCoord);
-
-
                     needUpdate = true;
-                    // texture.Apply();
-                    // cleanMat.SetTexture("_RenderTexture", texture);
                 }
             }
         }
@@ -113,11 +88,11 @@ public class CleaningTest : MonoBehaviour
             int x = (int)Mathf.Lerp(0, renderTexture.width, canvasHitCoord.x);
             int y = (int)Mathf.Lerp(0, renderTexture.height, canvasHitCoord.y);
             // texture.SetPixel(x, y, new Color(1, 0, 0));
-            DrawCircle(texture, new Color(1, 0, 1), stenciluvs, x, y, radius);
+            DrawCircle(canvasTexture, new Color(1, 0, 1), stenciluvs, x, y, radius);
             RenderTexture.active = null;
             needUpdate = false;
-            texture.Apply();
-            cleanMat.SetTexture("_RenderTexture", texture);
+            canvasTexture.Apply();
+            canvasMaterial.SetTexture("_RenderTexture", canvasTexture);
         }
     }
 

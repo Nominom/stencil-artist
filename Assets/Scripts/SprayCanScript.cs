@@ -10,6 +10,7 @@ public class SprayCanScript : MonoBehaviour
     public ParticleSystem ps;
 
     private bool followMouse = false;
+    private StencilScript stencil;
 
     public bool FollowingMouse
     {
@@ -22,6 +23,7 @@ public class SprayCanScript : MonoBehaviour
     {
         cam = Camera.main;
         mat = gameObject.GetComponentInChildren<MeshRenderer>().material;
+        stencil = FindAnyObjectByType<StencilScript>();
     }
 
     // Update is called once per frame
@@ -63,6 +65,9 @@ public class SprayCanScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("clicka de spraya");
-        followMouse = true;
+        if(!stencil.FollowingMouse)
+        {
+            followMouse = true;
+        }
     }
 }

@@ -5,11 +5,19 @@ public class StencilScript : MonoBehaviour
     Camera cam;
 
     private bool followMouse = false;
+
+    public bool FollowingMouse
+    {
+        get => followMouse;
+        set => followMouse = value;
+    }
+    private SprayCanScript sprayCanScript;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cam = Camera.main;
-        
+        sprayCanScript = FindObjectOfType<SprayCanScript>();
     }
 
     // Update is called once per frame
@@ -32,6 +40,9 @@ public class StencilScript : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log("clicka de stencil");
-        followMouse = true;
+        if(!sprayCanScript.FollowingMouse)
+        {
+            followMouse = true;
+        }
     }
 }

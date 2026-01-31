@@ -5,6 +5,7 @@ public class SprayCanScript : MonoBehaviour
 {
     Material mat;
     Color color;
+    public Color SprayColor { get => color; set => color = value; }
     Camera cam;
     public LayerMask layer;
     public ParticleSystem ps;
@@ -18,11 +19,16 @@ public class SprayCanScript : MonoBehaviour
         set => followMouse = value;
     }
 
+    private void Awake()
+    {
+        mat = gameObject.GetComponentInChildren<MeshRenderer>().material;
+        color = mat.color;
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         cam = Camera.main;
-        mat = gameObject.GetComponentInChildren<MeshRenderer>().material;
         stencil = FindAnyObjectByType<StencilScript>();
     }
 

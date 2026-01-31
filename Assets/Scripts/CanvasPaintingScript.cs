@@ -91,7 +91,7 @@ public class CanvasPaintingScript : MonoBehaviour
             int x = (int)Mathf.Lerp(0, renderTexture.width, canvasHitCoord.x);
             int y = (int)Mathf.Lerp(0, renderTexture.height, canvasHitCoord.y);
             // texture.SetPixel(x, y, new Color(1, 0, 0));
-            DrawCircle(canvasTexture, new Color(1, 0, 1), stenciluvs, x, y, radius);
+            DrawCircle(canvasTexture, new Color(1-sprayCanScript.SprayColor.r, 1-sprayCanScript.SprayColor.g, 1-sprayCanScript.SprayColor.b), stenciluvs, x, y, radius);
             RenderTexture.active = null;
             needUpdate = false;
             canvasTexture.Apply();

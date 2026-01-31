@@ -47,11 +47,15 @@ public class CanvasPaintingScript : MonoBehaviour
         }
         if (Input.GetMouseButton(0) && sprayCanScript.FollowingMouse) // Left mouse button
         {
+            Debug.Log("MEWOEWOAEOAWEWAOEAWOEAOWEOWA");
+
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             // RaycastHit hit;
-            RaycastHit[] hits = Physics.RaycastAll(ray, 1, paintLayer);
+            RaycastHit[] hits = Physics.RaycastAll(ray, 100, paintLayer);
             foreach (RaycastHit hit in hits)
             {
+                Debug.Log($"MEWOEWOAEOAWEWAOEAWOEAOWEOWA, collider = {hit.collider.gameObject.name}");
+
                 if (hit.collider.gameObject == gameObject || hit.collider.gameObject.CompareTag("stencil"))
                 {
                     if (hit.collider.gameObject == gameObject)
@@ -76,8 +80,8 @@ public class CanvasPaintingScript : MonoBehaviour
         Vector3 blforward = bl.forward;
         Vector3 trforward = tr.forward;
 
-        Ray blRay = new Ray(bl.transform.position + blforward * 0.01f, blforward);
-        Ray trRay = new Ray(tr.transform.position + trforward * 0.01f, trforward);
+        Ray blRay = new Ray(bl.transform.position - blforward * 0.01f, blforward);
+        Ray trRay = new Ray(tr.transform.position - trforward * 0.01f, trforward);
 
         if (Physics.Raycast(blRay, out RaycastHit hit, 1, paintLayer))
         {

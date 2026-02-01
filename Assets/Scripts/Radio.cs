@@ -39,12 +39,6 @@ public class Radio : MonoBehaviour
         }
     }
 
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(new Vector2(10, 10), new Vector2(300, 50)), new GUIContent("Radio: " + _currentMusicChannel.Name));
-        GUI.Label(new Rect(new Vector2(10, 70), new Vector2(300, 50)), new GUIContent("Press R to change channel"));
-    }
-
     private void Update()
     {
         if (_currentClip != null)

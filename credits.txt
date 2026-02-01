@@ -1,15 +1,11 @@
 
-Very gentle torch loop - Ovani Game Audio Fire Sound FX Pack
-Cat purr close B - Ovani Game Audio Animal Sound FX Pack
+Icons provided under the Creative Commons 3.0 by Caro Asercion, Cathelineau, Delapouite, Lorc
 
+Sound effects from Ovani Sound https://ovanisound.com/policies/terms-of-service
+Music by Phat Phrog Studios under their Commercial Usage License https://www.phatphrogstudio.com/_files/ugd/e25a6f_16a26f656d8047f696e6f143ee1a171e.pdf
 
 "Spray Paint Can" (https://skfb.ly/TWG7) by Keegan Owens is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Easel | Мольберт | Easel with painting" (https://skfb.ly/o8XMw) by Every 3D is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Unity-URP-Volumetric-Light" (https://github.com/CristianQiu/Unity-URP-Volumetric-Light) by CristianQiu is licensed under MIT License
 "Particle Pack" (https://kenney.nl/assets/particle-pack) by Kenney is licensed under Creative Commons Zero (https://creativecommons.org/publicdomain/zero/1.0/).
 "Pxiel Art UI Borders" (https://gx310.itch.io/pxiel-art-ui-borders) by GX310. LICENCE: This asset pack can be used in both free and commercial projects. You can modify it to suit your own needs. Credit is not necessary, but appreciated. 
-
-Icons provided under the Creative Commons 3.0
-
-Icons made by {author}, {author}
-

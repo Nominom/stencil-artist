@@ -64,15 +64,19 @@ public class StencilScript : MonoBehaviour
             position.z = 1;
             position = cam.ScreenToWorldPoint(position);
 
-            Vector3 planePoint = plane.ClosestPointOnPlane(position);
+            Vector3 rayDir = (position - cam.transform.position).normalized;
+            
+            plane.Raycast(new Ray(cam.transform.position, rayDir), out var hit);
+
+            Vector3 planePoint = cam.transform.position + rayDir * hit;
             planePoint -= canvas.transform.forward * grabZ;
             transform.position = planePoint;
             transform.forward = plane.normal;
-        }
-
-        if (Input.GetMouseButtonUp(1))
-        {
-            followMouse = false;
+            
+            if (Input.GetMouseButtonUp(1) || Input.GetMouseButtonUp(0))
+            {
+                followMouse = false;
+            }
         }
     }
 

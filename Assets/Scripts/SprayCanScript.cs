@@ -15,6 +15,8 @@ public class SprayCanScript : MonoBehaviour
     public Vector2 minMaxZDistance = new Vector2(0.5f, 2f);
     public float scrollAmount = 0f;
 
+    private AudioSource audioSource;
+    
     public bool FollowingMouse
     {
         get => followMouse;
@@ -33,6 +35,7 @@ public class SprayCanScript : MonoBehaviour
         cam = Camera.main;
         mat = gameObject.GetComponentInChildren<MeshRenderer>().material;
         canvas = FindFirstObjectByType<CanvasPaintingScript>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,6 +52,8 @@ public class SprayCanScript : MonoBehaviour
             {
                 ps.transform.rotation = Quaternion.LookRotation((canvas.paintWorldPos - ps.transform.position).normalized, Vector3.up);
                 ps.enableEmission = true;
+                if (!audioSource?.isPlaying ?? false)
+                    audioSource.Play();
             }
             
             if (Input.GetMouseButtonUp(1))
@@ -79,6 +84,8 @@ public class SprayCanScript : MonoBehaviour
         if (!Input.GetMouseButton(0))
         {
             ps.enableEmission = false;
+            if (audioSource?.isPlaying ?? false)
+                audioSource.Stop();
         }
 
         if (Input.mouseScrollDelta.y != 0 && followMouse)

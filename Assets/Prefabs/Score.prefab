@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d2eed23a801dd41a1647db7fbe5407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoringMeowster
-  PlayerScore: 10
+  PlayerScore: 0
   updateAllScores: 1
-  positiveEffectPrefab: {fileID: 0}
-  negativeEffectPrefab: {fileID: 0}
+  positiveEffectPrefab: {fileID: 458488026416619639, guid: 113657c66e4408c34b3f000a735f9f7f, type: 3}
+  negativeEffectPrefab: {fileID: 458488026416619639, guid: a7bd5498e07ee2343859d69ef90e1cdf, type: 3}
+  audioSource: {fileID: 0}
+  positiveSound: {fileID: 0}
+  negativeSound: {fileID: 0}
+  neutralSound: {fileID: 0}

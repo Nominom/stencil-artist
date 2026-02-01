@@ -84,7 +84,7 @@ public class SprayCanScript : MonoBehaviour
             }
         }
 
-        if (!Input.GetMouseButton(0))
+        if (!Input.GetMouseButton(0) || !canvas.isPainting)
         {
             ps.enableEmission = false;
             if (audioSource?.isPlaying ?? false)

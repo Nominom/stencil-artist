@@ -99,11 +99,11 @@ public class StencilScript : MonoBehaviour
             firstClick = false;
         }
         Debug.Log("clicka de stencil");
-        if (stencilUsed)
-        {
-            KillStencil();
-            FindObjectOfType<StencilSelection>().LoadNewSelection();
-        }
+        // if (stencilUsed)
+        // {
+        //     KillStencil();
+        //     FindObjectOfType<StencilSelection>().LoadNewSelection();
+        // }
 
         if (!sprayCanScript.FollowingMouse && !stencilUsed)
         {

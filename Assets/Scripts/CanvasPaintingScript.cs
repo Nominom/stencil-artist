@@ -83,6 +83,11 @@ public class CanvasPaintingScript : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             isPainting = false;
+            if (currentPaintStencilUsed && currentPaintStencilUsed.stencilUsed)
+            {
+                currentPaintStencilUsed.KillStencil();
+                FindObjectOfType<StencilSelection>().LoadNewSelection();
+            }
         }
     }
 
@@ -218,6 +223,7 @@ public class CanvasPaintingScript : MonoBehaviour
                         {
                             Debug.LogWarning("Stencil Painted!");
                             currentPaintStencilUsed.stencilUsed = true;
+                            
                             StencilObj stencil = new StencilObj()
                             {
                                 bl = stencilUvs.bluv,

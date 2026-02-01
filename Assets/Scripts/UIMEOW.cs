@@ -13,7 +13,9 @@ public class UIMEOW : MonoBehaviour
     public void OnStencilSelected(StencilScobj stencil)
     {
         StencilTitle.SetText(stencil.name);
-        StencilDescription.SetText(stencil.description);
+        string scoringText = FindFirstObjectByType<ScoringMeowster>().GetScoringDesc(stencil);
+        StencilDescription.SetText(stencil.description + "\n" + scoringText);
+        
     }
 
     public void OnScoreChanged(int score)

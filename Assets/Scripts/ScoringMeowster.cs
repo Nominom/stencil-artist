@@ -55,6 +55,7 @@ public class ScoringMeowster : MonoBehaviour
     {
         int oldScore = stencil.scoreGiven;
         int newScore = 0;
+        string scoringDesc = "";
         
         foreach(ScoringRule rule in stencil.data.scoringRules)
         {
@@ -64,20 +65,24 @@ public class ScoringMeowster : MonoBehaviour
                 {
                     case ScoringRule.ScoringType.Closeness:
                         newScore += GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
+                        scoringDesc += "Scores " + rule.RewardScore + " for each " + rule.AltTargetName + " within " + rule.Range + " units.";
                         break;
                     case ScoringRule.ScoringType.Farawayness:
                         newScore -= GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
+                        scoringDesc += "Scores " + rule.RewardScore + " for each " + rule.AltTargetName + " within " + rule.Range + " units.";
                         break;
                     case ScoringRule.ScoringType.BelowHorizon:
                         if (stencil.y < 0.5f)
                         {
                             newScore += rule.RewardScore;
+                            scoringDesc += "Scores " + rule.RewardScore + " for being below the horizon";
                         }
                         break;
                     case ScoringRule.ScoringType.AboveHorizon:
                         if (stencil.y > 0.5f)
                         {
                             newScore += rule.RewardScore;
+                            scoringDesc += "Scores " + rule.RewardScore + " for being above the horizon";
                         }
                         break;
                     default:
@@ -91,20 +96,24 @@ public class ScoringMeowster : MonoBehaviour
                 {
                     case ScoringRule.ScoringType.Closeness:
                         newScore += GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count * rule.RewardScore;
+                        scoringDesc += "Scores " + rule.RewardScore + " for each " + rule.TargetTag + " within " + rule.Range + " units.";
                         break;
                     case ScoringRule.ScoringType.Farawayness:
                         newScore += GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count == 0 ? 1 : 0 * rule.RewardScore;
+                        scoringDesc += "Scores " + rule.RewardScore + " if near " + rule.TargetTag + ".";
                         break;
                     case ScoringRule.ScoringType.BelowHorizon:
                         if (stencil.y < 0.5f)
                         {
                             newScore += rule.RewardScore;
+                            scoringDesc += "Scores " + rule.RewardScore + " for being below the horizon";
                         }
                         break;
                     case ScoringRule.ScoringType.AboveHorizon:
                         if (stencil.y > 0.5f)
                         {
                             newScore += rule.RewardScore;
+                            scoringDesc += "Scores " + rule.RewardScore + " for being above the horizon";
                         }
                         break;
                     default:
@@ -190,5 +199,58 @@ public class ScoringMeowster : MonoBehaviour
         }
 
         return results;
+    }
+
+    public string GetScoringDesc(StencilScobj stencil)
+    {
+        string scoringDesc = "";
+
+        foreach (ScoringRule rule in stencil.scoringRules)
+        {
+            if (!string.IsNullOrEmpty(rule.AltTargetName))
+            {
+                switch (rule.Scoring)
+                {
+                    case ScoringRule.ScoringType.Closeness:
+                        scoringDesc += "Scores " + rule.RewardScore + " for each " + rule.AltTargetName + " within " + rule.Range + " units. ";
+                        break;
+                    case ScoringRule.ScoringType.Farawayness:
+                        scoringDesc += "Scores " + rule.RewardScore + " for each " + rule.AltTargetName + " within " + rule.Range + " units. ";
+                        break;
+                    case ScoringRule.ScoringType.BelowHorizon:
+                        scoringDesc += "Scores " + rule.RewardScore + " for being below the horizon. ";
+                        break;
+                    case ScoringRule.ScoringType.AboveHorizon:
+                        scoringDesc += "Scores " + rule.RewardScore + " for being above the horizon. ";
+                        break;
+                    default:
+                        Debug.LogWarning("Unrecognized scoring rule, implement scoring in this file");
+                        break;
+                }
+            }
+            else
+            {
+                switch (rule.Scoring)
+                {
+                    case ScoringRule.ScoringType.Closeness:
+                        scoringDesc += "Scores " + rule.RewardScore + " for each " + rule.TargetTag + " within " + rule.Range + " units. ";
+                        break;
+                    case ScoringRule.ScoringType.Farawayness:
+                        scoringDesc += "Scores " + rule.RewardScore + " if near " + rule.TargetTag + ". ";
+                        break;
+                    case ScoringRule.ScoringType.BelowHorizon:
+                        scoringDesc += "Scores " + rule.RewardScore + " for being below the horizon. ";
+                        break;
+                    case ScoringRule.ScoringType.AboveHorizon:
+                        scoringDesc += "Scores " + rule.RewardScore + " for being above the horizon. ";
+                        break;
+                    default:
+                        Debug.LogWarning("Unrecognized scoring rule, implement scoring in this file");
+                        break;
+                }
+            }
+        }
+
+        return scoringDesc;
     }
 }

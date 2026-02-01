@@ -56,7 +56,7 @@ public class CanvasPaintingScript : MonoBehaviour
 
     void Update()
     {
-        if (currentPaintStencilUsed)
+        if (StencilScript.current)
         {
             GetStencilUvBlTr();
         }
@@ -114,8 +114,8 @@ public class CanvasPaintingScript : MonoBehaviour
 
     private (Vector2, Vector2) GetStencilUvBlTr()
     {
-        Transform bl = currentPaintStencilUsed.transform.Find("BL");
-        Transform tr = currentPaintStencilUsed.transform.Find("TR");
+        Transform bl = StencilScript.current.transform.Find("BL");
+        Transform tr = StencilScript.current.transform.Find("TR");
 
         Vector3 blforward = bl.forward;
         Vector3 trforward = tr.forward;

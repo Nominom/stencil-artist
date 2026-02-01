@@ -6,7 +6,9 @@ Cat purr close B - Ovani Game Audio Animal Sound FX Pack
 "Spray Paint Can" (https://skfb.ly/TWG7) by Keegan Owens is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Easel | Мольберт | Easel with painting" (https://skfb.ly/o8XMw) by Every 3D is licensed under Creative Commons Attribution (http://creativecommons.org/licenses/by/4.0/).
 "Unity-URP-Volumetric-Light" (https://github.com/CristianQiu/Unity-URP-Volumetric-Light) by CristianQiu is licensed under MIT License
+"Particle Pack" (https://kenney.nl/assets/particle-pack) by Kenney is licensed under Creative Commons Zero (https://creativecommons.org/publicdomain/zero/1.0/).
 
 Icons provided under the Creative Commons 3.0
 
 Icons made by {author}, {author}
+

@@ -5,8 +5,10 @@ using UnityEngine;
 public class ScoringMeowster : MonoBehaviour
 {
     public int PlayerScore = 0;
-    public int BaseScorePerStencil = 10;
-
+    public bool updateAllScores = true;
+    public GameObject positiveEffectPrefab;
+    public GameObject negativeEffectPrefab;
+    
     CanvasPaintingScript canvasPainter;
 
     private void Awake()
@@ -16,8 +18,26 @@ public class ScoringMeowster : MonoBehaviour
 
     public void OnStencilPainted(StencilObj stencil)
     {
-        // Score
-        PlayerScore += BaseScorePerStencil;
+        // Score the new stencil
+        UpdateScore(stencil);
+
+        if (updateAllScores)
+        {
+            // Score old stencils
+            foreach (var stencilObj in canvasPainter.paintedStencils)
+            {
+                UpdateScore(stencilObj);
+            }
+        }
+
+        FindFirstObjectByType<UIMEOW>().OnScoreChanged(PlayerScore);
+    }
+
+    void UpdateScore(StencilObj stencil)
+    {
+        int oldScore = stencil.scoreGiven;
+        int newScore = 0;
+        
         foreach(ScoringRule rule in stencil.data.scoringRules)
         {
             if (!string.IsNullOrEmpty(rule.AltTargetName))
@@ -25,21 +45,21 @@ public class ScoringMeowster : MonoBehaviour
                 switch (rule.Scoring)
                 {
                     case ScoringRule.ScoringType.Closeness:
-                        PlayerScore += GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
+                        newScore += GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.Farawayness:
-                        PlayerScore -= GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
+                        newScore -= GetNearbyStencilsByName(rule.AltTargetName, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.BelowHorizon:
-                        if (stencil.y < GetPaintingCanvasSize().y / 2f)
+                        if (stencil.y < 0.5f)
                         {
-                            PlayerScore += rule.RewardScore;
+                            newScore += rule.RewardScore;
                         }
                         break;
                     case ScoringRule.ScoringType.AboveHorizon:
-                        if (stencil.y > GetPaintingCanvasSize().y / 2f)
+                        if (stencil.y > 0.5f)
                         {
-                            PlayerScore += rule.RewardScore;
+                            newScore += rule.RewardScore;
                         }
                         break;
                     default:
@@ -52,21 +72,21 @@ public class ScoringMeowster : MonoBehaviour
                 switch (rule.Scoring)
                 {
                     case ScoringRule.ScoringType.Closeness:
-                        PlayerScore += GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count * rule.RewardScore;
+                        newScore += GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.Farawayness:
-                        PlayerScore -= GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count * rule.RewardScore;
+                        newScore += GetNearbyStencilsByTag(rule.TargetTag, stencil, rule.Range).Count == 0 ? 1 : 0 * rule.RewardScore;
                         break;
                     case ScoringRule.ScoringType.BelowHorizon:
-                        if (stencil.y < GetPaintingCanvasSize().y / 2f)
+                        if (stencil.y < 0.5f)
                         {
-                            PlayerScore += rule.RewardScore;
+                            newScore += rule.RewardScore;
                         }
                         break;
                     case ScoringRule.ScoringType.AboveHorizon:
-                        if (stencil.y > GetPaintingCanvasSize().y / 2f)
+                        if (stencil.y > 0.5f)
                         {
-                            PlayerScore += rule.RewardScore;
+                            newScore += rule.RewardScore;
                         }
                         break;
                     default:
@@ -75,8 +95,23 @@ public class ScoringMeowster : MonoBehaviour
                 }
             }
         }
+        
+        int scoreDelta = newScore - oldScore;
+        PlayerScore += scoreDelta;
+        stencil.scoreGiven = newScore;
 
-        FindFirstObjectByType<UIMEOW>().OnScoreChanged(PlayerScore);
+        Quaternion effectRotation = canvasPainter.transform.rotation;
+
+        if (scoreDelta > 0 && positiveEffectPrefab)
+        {
+            var inst = Instantiate(positiveEffectPrefab, stencil.worldPos, effectRotation);
+            inst.GetComponent<ParticleSystem>()?.Emit(scoreDelta);
+        }
+        else if (scoreDelta < 0 && negativeEffectPrefab)
+        {
+            var inst = Instantiate(negativeEffectPrefab, stencil.worldPos, effectRotation);
+            inst.GetComponent<ParticleSystem>()?.Emit(-scoreDelta);
+        }
     }
 
     Vector2 GetPaintingCanvasSize()
@@ -103,10 +138,14 @@ public class ScoringMeowster : MonoBehaviour
     List<StencilObj> GetNearbyStencilsByName(string name, StencilObj baseStencil, float range)
     {
         List<StencilObj> results = new List<StencilObj>();
-        System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
+        List<StencilObj> nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
-            StencilObj stencil = (StencilObj)nearbyStencils[i];
+            StencilObj stencil = nearbyStencils[i];
+            
+            if (stencil == baseStencil)
+                continue;
+            
             if (stencil.data.name == name)
             {
                 results.Add(stencil);
@@ -118,9 +157,8 @@ public class ScoringMeowster : MonoBehaviour
 
     List<StencilObj> GetNearbyStencils(Vector2 pos, float range)
     {
-        List<StencilObj> stencils = new List<StencilObj>(canvasPainter.paintedStencils);
         List<StencilObj> results = new List<StencilObj>();
-        foreach(StencilObj stencil in stencils) 
+        foreach(StencilObj stencil in canvasPainter.paintedStencils) 
         {
             if (Vector2.Distance(new Vector2(stencil.x, stencil.y), pos) < range)
             {

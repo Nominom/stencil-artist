@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
   texture: {fileID: 2800000, guid: 78b36f65a28f8ef4694f29a7152129bb, type: 3}
   size: 0.2
-  name: sunflower
+  randomWeight: 3
+  name: Sunflower
   description: Likes the sun!
   tags: 65
   scoringRules:
   - Scoring: 0
-    Range: 0.5
+    Range: 1
     TargetTag: 0
     AltTargetName: Sun
-    RewardScore: 20
+    RewardScore: 10
   - Scoring: 0
     Range: 0.2
     TargetTag: 64
     AltTargetName: 
-    RewardScore: 5
+    RewardScore: 1

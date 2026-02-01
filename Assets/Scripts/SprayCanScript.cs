@@ -14,7 +14,8 @@ public class SprayCanScript : MonoBehaviour
 
     public Vector2 minMaxZDistance = new Vector2(0.5f, 2f);
     public float scrollAmount = 0f;
-
+    
+    public float clickCooldown { get; private set; } = 0f;
     private AudioSource audioSource;
     
     public bool FollowingMouse
@@ -49,6 +50,8 @@ public class SprayCanScript : MonoBehaviour
             transform.position = position;
 
             if (Input.GetMouseButton(0) && canvas.isPainting)
+
+            if (Input.GetMouseButton(0) && canvas.isPainting && clickCooldown <= 0)
             {
                 ps.transform.rotation = Quaternion.LookRotation((canvas.paintWorldPos - ps.transform.position).normalized, Vector3.up);
                 ps.enableEmission = true;
@@ -62,7 +65,7 @@ public class SprayCanScript : MonoBehaviour
             }
         }
         
-        if(Input.GetMouseButtonDown(0))
+        if(Input.GetMouseButtonDown(0) && clickCooldown <= 0)
         {
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -96,14 +99,18 @@ public class SprayCanScript : MonoBehaviour
         
         zDistanceFromCamera = Mathf.Lerp(minMaxZDistance.x, minMaxZDistance.y, scrollAmount);
         
+
+
+        clickCooldown -= Time.deltaTime;
     }
 
     private void OnMouseDown()
     {
         Debug.Log("clicka de spraya");
-        if((!StencilScript.current?.FollowingMouse) ?? true)
+        if((!StencilScript.current?.FollowingMouse) ?? true && !followMouse)
         {
             followMouse = true;
+            clickCooldown = 0.1f;
         }
     }
 }

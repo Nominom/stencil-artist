@@ -6,6 +6,7 @@ public class StencilScobj : ScriptableObject
 {
     public Texture texture;
     public float size = 1f;
+    public float randomWeight = 1f;
     public new string name;
     public string description;
     public StencilTag tags;

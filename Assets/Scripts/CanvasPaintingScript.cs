@@ -61,7 +61,7 @@ public class CanvasPaintingScript : MonoBehaviour
             GetStencilUvBlTr();
         }
 
-        if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse)
+        if (Input.GetMouseButtonDown(0) && sprayCanScript.FollowingMouse && sprayCanScript.clickCooldown <= 0)
         {
             currentPaintStencilUsed = StencilScript.current;
             if (currentPaintStencilUsed)

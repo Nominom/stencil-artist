@@ -14,6 +14,7 @@ public class StencilObj
     public Vector2 bl;
     public Vector2 tr;
     public Vector3 worldPos;
-
+    public int scoreGiven;
+    
     public StencilScobj data;
 }

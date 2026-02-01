@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
   texture: {fileID: 2800000, guid: 1cc97ece4e28a814ebf1cbfa7a8c4f91, type: 3}
   size: 0.3
+  randomWeight: 1
   name: bear
   description: Likes honey.
   tags: 6
@@ -24,7 +25,7 @@ MonoBehaviour:
     AltTargetName: 
     RewardScore: 0
   - Scoring: 0
-    Range: 0.1
+    Range: 0.2
     TargetTag: 0
     AltTargetName: Beehive
-    RewardScore: 0
+    RewardScore: 7

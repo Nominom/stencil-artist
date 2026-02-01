@@ -63,7 +63,7 @@ MonoBehaviour:
     m_OverrideState: 1
     m_Value: 1
   anisotropy:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 0.4
   scattering:
     m_OverrideState: 1
@@ -141,10 +141,10 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.8214895, y: 0.8316282, z: 1, w: 0}
+    m_Value: {x: 0.80487376, y: 0.8226103, z: 1, w: 0}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.8266621, z: 0.77468735, w: 0}
+    m_Value: {x: 1, y: 0.750066, z: 0.6099684, w: 0}
   highlights:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0}

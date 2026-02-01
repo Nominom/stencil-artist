@@ -34,7 +34,6 @@ public class StencilSelection : MonoBehaviour
     public void LoadNewSelection()
     {
         stencilScripts.Clear();
-        List<StencilScobj> stencils = new List<StencilScobj>();
         List<int> picked = new List<int>();
 
         for (int i = 0; i < 3; i++)
@@ -43,14 +42,12 @@ public class StencilSelection : MonoBehaviour
             var selected = scobjs[index];
             do
             {
-                var (pickedStencil, ind) = PickOneRandom(scobjs.ToList());
-                index = ind;
-                selected = pickedStencil;
+                (selected, index) = PickOneRandom(scobjs.ToList());
             } while (picked.Contains(index));
 
             picked.Add(index);
             Debug.Log(selected.name);
-            stencils.Add(selected);
+            
             var s = Instantiate(stencilPrefab,
                 new Vector3(transform.position.x, transform.position.y + (i * 0.2f) - 0.1f,
                     transform.position.z + 0.5f), transform.rotation);

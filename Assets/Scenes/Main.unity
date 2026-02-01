@@ -153,6 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cded085d155cde949b60f67a11dbc3bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.ProbeVolume
+  version: 2
+  globalVolume: 0
   mode: 2
   size: {x: 35.626007, y: 10, z: 41.879745}
   overrideRendererFilters: 0
@@ -183,8 +185,6 @@ MonoBehaviour:
     e33: 1
   cachedHashCode: -595512993
   fillEmptySpaces: 0
-  version: 2
-  globalVolume: 0
 --- !u!4 &187923201
 Transform:
   m_ObjectHideFlags: 0
@@ -6386,6 +6386,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 788631915063514296, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5016773058364222616, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6985353915926885653, guid: cc92e9882167e4749807a21f8ed3a1e6, type: 3}

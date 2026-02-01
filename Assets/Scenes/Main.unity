@@ -153,8 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cded085d155cde949b60f67a11dbc3bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.ProbeVolume
-  version: 2
-  globalVolume: 0
   mode: 2
   size: {x: 35.626007, y: 10, z: 41.879745}
   overrideRendererFilters: 0
@@ -185,6 +183,8 @@ MonoBehaviour:
     e33: 1
   cachedHashCode: -595512993
   fillEmptySpaces: 0
+  version: 2
+  globalVolume: 0
 --- !u!4 &187923201
 Transform:
   m_ObjectHideFlags: 0
@@ -464,7 +464,7 @@ MonoBehaviour:
   canvasMaterial: {fileID: 2100000, guid: b8913c61b8a65ae568fdfa293e277cf1, type: 2}
   radius: 59
   minMaxRadius: {x: 30, y: 120}
-  stencilPixelThreshold: 300000
+  stencilPixelThreshold: 500000
   paintBrushCurve:
     serializedVersion: 2
     m_Curve:

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5638a6272769a794a995e0b6425d7643, type: 3}
-  m_Name: Bear
+  m_Name: Squirrel
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
-  texture: {fileID: 2800000, guid: 1cc97ece4e28a814ebf1cbfa7a8c4f91, type: 3}
-  size: 0.3
+  texture: {fileID: 2800000, guid: bf3e2e05d15ee6e4d8f9208b276cb757, type: 3}
+  size: 0.2
   randomWeight: 1
-  name: Bear
-  description: Likes honey.
-  tags: 6
+  name: Squirrel
+  description: Lives in trees
+  tags: 10
   scoringRules:
   - Scoring: 0
-    Range: 0.4
-    TargetTag: 0
-    AltTargetName: Beehive
-    RewardScore: 7
+    Range: 0.1
+    TargetTag: 32
+    AltTargetName: 
+    RewardScore: 3

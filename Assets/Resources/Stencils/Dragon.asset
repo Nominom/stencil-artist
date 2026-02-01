@@ -10,17 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5638a6272769a794a995e0b6425d7643, type: 3}
-  m_Name: Bear
+  m_Name: Dragon
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
-  texture: {fileID: 2800000, guid: 1cc97ece4e28a814ebf1cbfa7a8c4f91, type: 3}
-  size: 0.3
-  randomWeight: 1
-  name: Bear
-  description: Likes honey.
+  texture: {fileID: 2800000, guid: b1c714e6d62d07646be6e5ed1a0bad30, type: 3}
+  size: 1
+  randomWeight: 0.1
+  name: Dragon
+  description: Grrrrrrrrrrrrowl!
   tags: 6
   scoringRules:
   - Scoring: 0
-    Range: 0.4
-    TargetTag: 0
-    AltTargetName: Beehive
+    Range: 1
+    TargetTag: 12
+    AltTargetName: 
     RewardScore: 7
+  - Scoring: 0
+    Range: 2
+    TargetTag: 0
+    AltTargetName: Dragon
+    RewardScore: -999

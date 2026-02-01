@@ -11,4 +11,5 @@ public enum StencilTag
     Scenery = 1 << 4,
     Tree = 1 << 5,
     Flower = 1 << 6,
+    Accessory = 1 << 7,
 }

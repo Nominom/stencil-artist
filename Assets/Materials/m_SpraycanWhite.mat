@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: m_SpraycanOrange
+  m_Name: m_SpraycanWhite
   m_Shader: {fileID: -6465566751694194690, guid: a935234e246038177bd31f1eb1d0f0b8, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -62,6 +62,6 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _Color: {r: 0.9137255, g: 0.53282773, b: 0.19999999, a: 1}
+    - _Color: {r: 0.98039216, g: 0.96862745, b: 0.8, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

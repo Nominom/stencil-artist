@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
   texture: {fileID: 2800000, guid: a54c6d4e57a76464ea20f16736721707, type: 3}
   size: 0.3
-  randomWeight: 1
+  randomWeight: 0.5
   name: Sun
   description: Just a sun.
   tags: 16

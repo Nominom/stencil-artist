@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StencilSelection : MonoBehaviour
@@ -40,12 +41,14 @@ public class StencilSelection : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             int index = Random.Range(0, scobjs.Length);
+            var selected = scobjs[index];
             while(picked.Contains(index))
             {
-                index = Random.Range(0, scobjs.Length);
+                var(pickedStencil, ind) = PickOneRandom(scobjs.ToList());
+                index = ind;
+                selected = pickedStencil;
             }
             picked.Add(index);
-            var selected = scobjs[index];
             Debug.Log(selected.name);
             stencils.Add(selected);
             var s = Instantiate(stencilPrefab, new Vector3(transform.position.x, transform.position.y + (i * 0.2f)-0.1f, transform.position.z+0.5f), transform.rotation);
@@ -54,5 +57,24 @@ public class StencilSelection : MonoBehaviour
             stencil.UpdateStencil();
             stencilScripts.Add(stencil);
         }
+    }
+    
+    public static (StencilScobj, int) PickOneRandom(List<StencilScobj> list)
+    {
+        float totalWeight = 0;
+        float cumulativeTotal = 0;
+
+        totalWeight = list.Sum(item => item.randomWeight);
+
+        float rand = Random.Range(0f, totalWeight);
+
+        var pickedItem = list.Find(item =>
+            {
+                cumulativeTotal += item.randomWeight;
+                return cumulativeTotal >= rand;
+            }
+        );
+
+        return (pickedItem, list.IndexOf(pickedItem));
     }
 }

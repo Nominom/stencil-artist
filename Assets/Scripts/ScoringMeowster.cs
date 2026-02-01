@@ -10,6 +10,11 @@ public class ScoringMeowster : MonoBehaviour
     public GameObject negativeEffectPrefab;
     
     CanvasPaintingScript canvasPainter;
+    
+    public AudioSource audioSource;
+    public AudioClip positiveSound;
+    public AudioClip negativeSound;
+    public AudioClip neutralSound;
 
     private void Awake()
     {
@@ -18,6 +23,7 @@ public class ScoringMeowster : MonoBehaviour
 
     public void OnStencilPainted(StencilObj stencil)
     {
+        int oldScore = PlayerScore;
         // Score the new stencil
         UpdateScore(stencil);
 
@@ -28,6 +34,18 @@ public class ScoringMeowster : MonoBehaviour
             {
                 UpdateScore(stencilObj);
             }
+        }
+
+        if (PlayerScore > oldScore)
+        {
+            audioSource.PlayOneShot(positiveSound);
+        }else if (PlayerScore < oldScore)
+        {
+            audioSource.PlayOneShot(negativeSound);
+        }
+        else
+        {
+            audioSource.PlayOneShot(neutralSound);
         }
 
         FindFirstObjectByType<UIMEOW>().OnScoreChanged(PlayerScore);

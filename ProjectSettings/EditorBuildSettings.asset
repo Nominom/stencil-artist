@@ -5,9 +5,12 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/testo.unity
     guid: 6a5593f12d7c042e397b5bba991234f4
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: 64de4b5afc46a9448b02a5669e21451c
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

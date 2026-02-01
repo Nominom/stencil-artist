@@ -14,16 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
   texture: {fileID: 2800000, guid: 5f6c6ec08a58c524498177a665b9fe2a, type: 3}
   size: 0.5
-  randomWeight: 10
+  randomWeight: 7
   name: Pine
   description: A lovely pine tree.
   tags: 49
   scoringRules:
-  - Scoring: 0
-    Range: 0.3
-    TargetTag: 32
-    AltTargetName: 
-    RewardScore: 1
   - Scoring: 2
     Range: 0
     TargetTag: 0

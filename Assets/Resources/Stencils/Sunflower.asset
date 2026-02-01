@@ -23,7 +23,7 @@ MonoBehaviour:
     Range: 2
     TargetTag: 0
     AltTargetName: Sun
-    RewardScore: 10
+    RewardScore: 3
   - Scoring: 0
     Range: 0.2
     TargetTag: 64

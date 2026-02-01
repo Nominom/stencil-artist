@@ -15,12 +15,12 @@ MonoBehaviour:
   texture: {fileID: 2800000, guid: 6e5ff7f364c392040bddc6d8fa5958c8, type: 3}
   size: 0.2
   randomWeight: 0.2
-  name: Extra eyes
-  description: To see better
+  name: Top hat
+  description: How dapper!
   tags: 128
   scoringRules:
   - Scoring: 0
     Range: 0.1
     TargetTag: 2
     AltTargetName: 
-    RewardScore: 3
+    RewardScore: 10

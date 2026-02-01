@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5638a6272769a794a995e0b6425d7643, type: 3}
-  m_Name: Willow
+  m_Name: WinterHat
   m_EditorClassIdentifier: Assembly-CSharp::StencilScobj
-  texture: {fileID: 2800000, guid: 0d7ca42f25b91b444a6658301ff15dad, type: 3}
-  size: 0.6
-  randomWeight: 1
-  name: Willow
-  description: A willow tree.
-  tags: 49
+  texture: {fileID: 2800000, guid: 9744081af81b97448a961405c63bc1fb, type: 3}
+  size: 0.2
+  randomWeight: 0.2
+  name: Winter hat
+  description: For those cold nights
+  tags: 128
   scoringRules:
-  - Scoring: 2
-    Range: 0
-    TargetTag: 0
+  - Scoring: 0
+    Range: 0.1
+    TargetTag: 2
     AltTargetName: 
-    RewardScore: 3
+    RewardScore: 10

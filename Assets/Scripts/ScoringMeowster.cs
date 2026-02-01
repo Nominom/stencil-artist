@@ -122,11 +122,15 @@ public class ScoringMeowster : MonoBehaviour
     List<StencilObj> GetNearbyStencilsByTag(StencilTag tag, StencilObj baseStencil, float range)
     {
         List<StencilObj> results = new List<StencilObj>();
-        System.Collections.IList nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
+        List<StencilObj> nearbyStencils = GetNearbyStencils(baseStencil.position, range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
-            StencilObj stencil = (StencilObj)nearbyStencils[i];
-            if (stencil.data.tags.CompareTo(tag) == 1)
+            StencilObj stencil = nearbyStencils[i];
+            
+            if (stencil == baseStencil)
+                continue;
+            
+            if ((stencil.data.tags & tag) != 0)
             {
                 results.Add(stencil);
             }
@@ -138,7 +142,7 @@ public class ScoringMeowster : MonoBehaviour
     List<StencilObj> GetNearbyStencilsByName(string name, StencilObj baseStencil, float range)
     {
         List<StencilObj> results = new List<StencilObj>();
-        List<StencilObj> nearbyStencils = GetNearbyStencils(new Vector2(baseStencil.x, baseStencil.y), range);
+        List<StencilObj> nearbyStencils = GetNearbyStencils(baseStencil.position, range);
         for (int i = 0; i < nearbyStencils.Count; i++)
         {
             StencilObj stencil = nearbyStencils[i];
@@ -158,9 +162,10 @@ public class ScoringMeowster : MonoBehaviour
     List<StencilObj> GetNearbyStencils(Vector2 pos, float range)
     {
         List<StencilObj> results = new List<StencilObj>();
-        foreach(StencilObj stencil in canvasPainter.paintedStencils) 
+        foreach(StencilObj stencil in canvasPainter.paintedStencils)
         {
-            if (Vector2.Distance(new Vector2(stencil.x, stencil.y), pos) < range)
+            float dist = Vector2.Distance(stencil.position, pos);
+            if (dist < range)
             {
                 results.Add(stencil);
             }

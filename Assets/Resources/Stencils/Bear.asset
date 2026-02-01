@@ -20,12 +20,12 @@ MonoBehaviour:
   tags: 6
   scoringRules:
   - Scoring: 0
-    Range: 0.2
+    Range: 0.4
     TargetTag: 8
     AltTargetName: 
     RewardScore: 0
   - Scoring: 0
-    Range: 0.2
+    Range: 0.4
     TargetTag: 0
     AltTargetName: Beehive
     RewardScore: 7

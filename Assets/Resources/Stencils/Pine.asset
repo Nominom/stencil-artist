@@ -17,10 +17,10 @@ MonoBehaviour:
   randomWeight: 10
   name: pine
   description: A lovely pine tree.
-  tags: 17
+  tags: 49
   scoringRules:
   - Scoring: 0
-    Range: 0.1
+    Range: 0.3
     TargetTag: 32
     AltTargetName: 
     RewardScore: 1

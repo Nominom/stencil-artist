@@ -20,7 +20,7 @@ MonoBehaviour:
   tags: 65
   scoringRules:
   - Scoring: 0
-    Range: 1
+    Range: 2
     TargetTag: 0
     AltTargetName: Sun
     RewardScore: 10

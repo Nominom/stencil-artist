@@ -251,50 +251,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pxiel Art UI borders_7
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 246
-        width: 81
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6d95ee9bcf3016e44b1b4b0f9cff8f29
-      internalID: 1981241471
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Pxiel Art UI borders_8
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 246
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e439a19698ca3754191252f0abf974e4
-      internalID: 2061928000
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Pxiel Art UI borders_9
       rect:
         serializedVersion: 2
@@ -344,8 +300,8 @@ TextureImporter:
         serializedVersion: 2
         x: 18
         y: 162
-        width: 81
-        height: 81
+        width: 92
+        height: 92
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -361,28 +317,6 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Pxiel Art UI borders_12
-      rect:
-        serializedVersion: 2
-        x: 102
-        y: 162
-        width: 8
-        height: 81
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 04c8f9d8faa172942abb27ce861c0990
-      internalID: 1359431909
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Pxiel Art UI borders_13
       rect:
         serializedVersion: 2
@@ -392,7 +326,7 @@ TextureImporter:
         height: 90
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 13, y: 13, z: 13, w: 13}
       customData: 
       outline: []
       physicsShape: []

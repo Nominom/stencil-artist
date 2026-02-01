@@ -44,5 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2d2eed23a801dd41a1647db7fbe5407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ScoringMeowster
-  PlayerScore: 0
-  BaseScorePerStencil: 0
+  PlayerScore: 10
+  updateAllScores: 1
+  positiveEffectPrefab: {fileID: 0}
+  negativeEffectPrefab: {fileID: 0}
